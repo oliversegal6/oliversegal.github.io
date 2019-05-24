@@ -70,7 +70,7 @@
                                     <a class="main-nav-list-link" href="/">主页</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/分布式架构/">分布式架构</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
                                     
                                 <li class="main-nav-list-item">
                                     <a class="main-nav-list-link" href="/about/index.html">关于</a>
@@ -157,12 +157,17 @@
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2019-05-19T16:17:12.443Z" itemprop="datePublished">2019-05-20</time></div>
+            <div class="date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
         <p class="article-excerpt">
-            架构设计高性能架构性能分析：检查各处处理的日志，查看那个环节响应时间不合理，超过预期；然后检查监控数据，内存，磁盘，网络，CPU，查看是代码问题还是架构问题，或者资源确实不足。性能优化： 针对查到的原因进行优化，根据网站分层架构，可分为Web前端优化，应用服务器性能优化，存储服务器优化。
-高并发原则无状态设计应用设计为无状态的，易于水平扩展。实际应用中一般为服务无状态，配置有状态，比如不同区域数据
+            消息中间件: RocketMQ, Kafka异步处理、缓解服务器压力，解藕系统
+
+RocketMQ
+RabbitMQ
+Kafka
+
+
         </p>
     </div>
 </article>
@@ -179,71 +184,19 @@
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2019-05-19T16:17:12.440Z" itemprop="datePublished">2019-05-20</time></div>
+            <div class="date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
         <p class="article-excerpt">
-            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
-1）一个依赖服务的故障不会严重破坏用户的体验。
-2）系统能自动或半自动处理故障，具备自我恢复能力。
-经典的容错模式超时与重试（Time
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
+            数据存储关系式数据库
+Create、Query、Delete、Update操作外。还需要能自行建立索引
+数据库的平行扩展
+如何进行性能调试。以及了解常见查询操作的性能级别，常见的查询性能瓶颈点
+mysql，对它基本的参数优化，慢查询日志分析，主从复制的配置
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-05-19T16:17:12.438Z" itemprop="datePublished">2019-05-20</time></div>
-        </div>
-        
-        <p class="article-excerpt">
-            分布式系统数据访问层单机数据库性能不足的情况下，需要进行拆分。
-数据库垂直和水平拆分不升级硬件的情况下，要通过数据库减压的方式来优化。
-
-优化应用，减少不必要的数据库访问。
-引入其他方式来降低压力，引入缓存加搜索引擎。
-建立数据库集群，拆分数据
-
-数据拆分有两种，垂直拆分和水平拆分。垂直拆分是把不同的业务数据分到不同的数据库，水平拆分是根据一定规则把同一业务数据拆分到多个数据库。
-垂直拆分会有以下
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-05-19T16:17:12.435Z" itemprop="datePublished">2019-05-20</time></div>
-        </div>
-        
-        <p class="article-excerpt">
-            高可靠消息服务总体架构
-消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
-
-路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
+Hadoop Hive分布式大数据存储nfs,fastdfs,tfs,Hadoop了解他们的优缺点，适用场景 。 
+MongoDB
+分片、转
         </p>
     </div>
 </article>
@@ -264,7 +217,53 @@
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2019-05-19T16:17:12.433Z" itemprop="datePublished">2019-05-20</time></div>
+            <div class="date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+        <p class="article-excerpt">
+            搜索引擎相关技术知识: ElasticSearch, Logstash, Kibana
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            
+            </div>
+            <div class="date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+        <p class="article-excerpt">
+            Spark Storm分布式实时存储与流式计算
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            
+            </div>
+            <div class="date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
         <p class="article-excerpt">
@@ -291,7 +290,49 @@ Nginx分离zuul+Redis实现token网关登录认证
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2019-05-19T16:13:06.277Z" itemprop="datePublished">2019-05-20</time></div>
+            <div class="date"><time datetime="2019-05-24T15:16:52.366Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+        <p class="article-excerpt">
+            系统框架框架SpringSpring Framework
+IOC原理
+单例/原型模式，工厂模式
+AOP、装饰器模式
+其他常用模式，适配器、观察者、策略，模板方法
+Spring JDBC. 声明式事物/事物嵌套原理
+
+Spring BootSpring Boot + Spring MVC
+一致性高级一致性算法
+一致性hash
+paxos
+zab
+nwr
+raft
+gossip
+
+传统一致性
+Cons
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            
+            </div>
+            <div class="date"><time datetime="2019-05-24T15:16:51.726Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
         <p class="article-excerpt">
@@ -300,37 +341,6 @@ Nginx分离zuul+Redis实现token网关登录认证
     </div>
 </article>
     
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2019-05-17T14:06:47.000Z" itemprop="datePublished">2019-05-17</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/My-New-Post/">My New Post</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-        </p>
-    </div>
-</article>
-    
 
     
     
@@ -341,24 +351,14 @@ Nginx分离zuul+Redis实现token网关登录认证
         
         <div class="article-meta">
             <div class="category">
-            <a class="article-category-link" href="/categories/分布式架构/">分布式架构</a>
+            
             </div>
-            <div class="date"><time datetime="2019-05-17T14:06:47.000Z" itemprop="datePublished">2019-05-17</time></div>
+            <div class="date"><time datetime="2019-05-24T15:16:51.705Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/分布式架构/MicroService/">MicroService</a>
-        </h1>
-    
-
         <p class="article-excerpt">
-            微服务架构监控微服务架构虽然解决了目前诸多的架构层面的问题，但在分布式部署的环境中，如何才能够有效监控每一个服务，并及时发现系统中的问题又成为了新的挑战
-在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
-
-基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封装的框架。
-
-自动探针，适用语言：J
+            Server如果一开始就将静态文件与主站内容混杂在一起，未来就是个灾难，具体参考CDN的应用方式
+ApachenginxTomcat, Jetty
         </p>
     </div>
 </article>
@@ -379,22 +379,18 @@ Nginx分离zuul+Redis实现token网关登录认证
             <div class="category">
             
             </div>
-            <div class="date"><time datetime="2019-05-17T14:06:47.000Z" itemprop="datePublished">2019-05-17</time></div>
+            <div class="date"><time datetime="2019-05-24T15:12:32.608Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/教育/15种语境鼓励孩子/">15种语境鼓励孩子</a>
-        </h1>
-    
-
         <p class="article-excerpt">
-            赞美孩子的天赋而非他的努力、策略和选择，可是在慢性地扼杀他的成长型思维
-成长型思维和固定型思维最大的区别是：
-1234567固定型思维模式的人会认为自己的智力和能力是定量的不会变化的拥有成长型思维模式的人是“能力渐进论者”他们相信自己的能力可以通过努力提升
+            
+title: FinancialWorddate: 2019-05-24 22:06:47categories: 
 
-你很努力啊，You tried really hard on that.（表扬努力）
-尽管很难，但你一直没有放弃，请记得肯定他的耐心和坚持。
+金融
+投资
+
+
+A.M.T.Alternative Minimum Tax is a calculation designed to ensure that individuals and corporations pay their &apos;fair share&apos;
         </p>
     </div>
 </article>
@@ -409,24 +405,30 @@ Nginx分离zuul+Redis实现token网关登录认证
         
         <div class="article-meta">
             <div class="category">
-            
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a>
             </div>
-            <div class="date"><time datetime="2019-05-17T14:06:47.000Z" itemprop="datePublished">2019-05-17</time></div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/教育/父母做到19点/">父母做到19点</a>
+        <a href="/passages/软件开发/Tech图谱/">Tech图谱</a>
         </h1>
     
 
         <p class="article-excerpt">
-            1、宽容而温暖地包容孩子
-　　就算孩子犯了错，也要用宽容的心原谅他，用温暖的话包容他。孩子确信得到父母的承认和爱时，才会自己有信心，运气才会发芽。
-2、拥有具有信念的教育哲学
-　　害怕孩子落在别人后面，强迫孩子学习不愿学的知识，会削弱孩子的意志。寻找适合孩子的教育方法最重要，找到了就要坚持下去。
-3、帮助孩子拥有梦想
-　　父母要帮助孩子拥有具体的未来梦想。孩子拥有了梦想，要引导他们相信这个梦想能实
+            [TOC]
+软件开发语言PythonJava集合对象
+java各种集合对象的实现原理
+熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间
+
+NIO + Netty高并发编程
+io
+nio
+网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解
+通信框架Netty实战部署以及Netty服务讲解
+Netty的TCP粘包拆包、序列化以及自定义协议
+Netty实
         </p>
     </div>
 </article>
@@ -439,8 +441,8 @@ Nginx分离zuul+Redis实现token网关登录认证
 
 
     <nav id="page-nav">
-        <span class="pages">第 1 页，共 2 页</span>
-        <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="extend next" rel="next" href="/archives/2019/page/2/">&raquo;</a>
+        <span class="pages">第 1 页，共 6 页</span>
+        <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="page-number" href="/archives/2019/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/6/">6</a><a class="extend next" rel="next" href="/archives/2019/page/2/">&raquo;</a>
     </nav>
 
 
@@ -519,8 +521,8 @@ Nginx分离zuul+Redis实现token网关登录认证
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/passages/分布式架构/高性能架构/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2019-05-19T16:17:12.443Z" itemprop="datePublished">2019-05-20</time></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
                         </div>
                     </li>
                 
@@ -528,8 +530,8 @@ Nginx分离zuul+Redis实现token网关登录认证
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/passages/分布式架构/服务容错设计/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2019-05-19T16:17:12.440Z" itemprop="datePublished">2019-05-20</time></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
                         </div>
                     </li>
                 
@@ -537,8 +539,8 @@ Nginx分离zuul+Redis实现token网关登录认证
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/passages/分布式架构/分布式系统/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2019-05-19T16:17:12.438Z" itemprop="datePublished">2019-05-20</time></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
                         </div>
                     </li>
                 
@@ -546,8 +548,8 @@ Nginx分离zuul+Redis实现token网关登录认证
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/passages/分布式架构/taobaoExperience/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2019-05-19T16:17:12.435Z" itemprop="datePublished">2019-05-20</time></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
                         </div>
                     </li>
                 
@@ -555,8 +557,8 @@ Nginx分离zuul+Redis实现token网关登录认证
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/passages/分布式架构/README/" class="title"></a></p>
-                            <p class="item-date"><time datetime="2019-05-19T16:17:12.433Z" itemprop="datePublished">2019-05-20</time></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
                         </div>
                     </li>
                 
@@ -569,7 +571,7 @@ Nginx分离zuul+Redis实现token网关登录认证
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/分布式架构/">分布式架构</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">7</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
         </div>
     </div>
 
@@ -579,30 +581,16 @@ Nginx分离zuul+Redis实现token网关登录认证
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">20</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
         </div>
     </div>
 
 
             
                 
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">标签</h3>
-        <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/教育/">教育</a><span class="tag-list-count">2</span></li></ul>
-        </div>
-    </div>
-
 
             
                 
-    <div class="widget-wrap widget-float">
-        <h3 class="widget-title">标签云</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/教育/" style="font-size: 10px;">教育</a>
-        </div>
-    </div>
-
 
             
                 

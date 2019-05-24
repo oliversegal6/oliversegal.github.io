@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>ORACLE 回滚段管理 | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="[TOC] 回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。  回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。  回滚段的作用 事务回滚：当事务修改表中数据的时候，该数据修改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORACLE 回滚段管理">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="[TOC] 回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。  回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。  回滚段的作用 事务回滚：当事务修改表中数据的时候，该数据修改">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:15:05.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ORACLE 回滚段管理">
+<meta name="twitter:description" content="[TOC] 回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。  回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。  回滚段的作用 事务回滚：当事务修改表中数据的时候，该数据修改">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ORACLE 回滚段管理
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>[TOC]</p>
+<p>回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 </p>
+<h2 id="回滚段概述"><a href="#回滚段概述" class="headerlink" title="回滚段概述"></a>回滚段概述</h2><p>回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 </p>
+<h2 id="回滚段的作用"><a href="#回滚段的作用" class="headerlink" title="回滚段的作用"></a>回滚段的作用</h2><ul>
+<li>事务回滚：当事务修改表中数据的时候，该数据修改前的值（即前影像）会存放在回滚段中，当用户回滚事务（ROLLBACK）时，ORACLE将会利用回滚段中的数据前影像来将修改的数据恢复到原来的值。 </li>
+<li>事务恢复：当事务正在处理的时候，例程失败，回滚段的信息保存在重做日志文件中，ORACLE将在下次打开数据库时利用回滚来恢复未提交的数据。 </li>
+<li>读一致性：当一个会话正在修改数据时，其它的会话将看不到该会话未提交的修改。而且，当一个语句正在执行时，该语句将看不到从该语句开始执行后的未提交的修改（语句级读一致性）。当ORACLE执行SELECT语句时，ORACLE依照当前的系统改变号（SYSTEM CHANGE NUMBER-SCN）来保证任何前于当前SCN的未提交的改变不被该语句处理。可以想象：当一个长时间的查询正在执行时，若其它会话改变了该查询要查询的某个数据块，ORACLE将利用回滚段的数据前影像来构造一个读一致性视图。 </li>
+</ul>
+<h2 id="事务级的读一致性"><a href="#事务级的读一致性" class="headerlink" title="事务级的读一致性"></a>事务级的读一致性</h2><p>ORACLE一般提供SQL语句级（SQL STATEMENT LEVEL）的读一致性，可以用以下语句来实现事务级的读一致性。 </p>
+<p>SET TRANSACTION READ ONLY；<br>或：<br>SET TANNSACTION SERIALIZABLE； </p>
+<p>以上两个语句都将在事务开始后提供读一致性。需要注意的是，使用第二个语句对数据库的并发性和性能将带来影响。 </p>
+<h2 id="回滚段的种类"><a href="#回滚段的种类" class="headerlink" title="回滚段的种类"></a>回滚段的种类</h2><ul>
+<li>系统回滚段：当数据库创建后，将自动创建一个系统回滚段，该回滚段只用于存放系统表空间中对象的前影像。 </li>
+<li>非系统回滚段：拥有多个表空间的数据库至少应该有一个非系统回滚段，用于存放非系统表空间中对象的数据前影像。非系统回滚段又分为私有回滚段和公有回滚段，私有回滚段应在参数文件的ROLLBACK SEGMENTS参数中列出，以便例程启动时自动使其在线（ONLINE）。公有回滚段一般在OPS（ORACLE并行服务器）中出现，将在例程启动时自动在线。 </li>
+<li>DEFERED回滚段：该回滚段在表空间离线（OFFLINE）时由系统自动创建，当表空间再次在线（ONLINE）时由系统自动删除，用于存放表空间离线时产生的回滚信息。 </li>
+</ul>
+<h3 id="回滚段的使用"><a href="#回滚段的使用" class="headerlink" title="回滚段的使用"></a>回滚段的使用</h3><pre><code>分配回滚段：当事务开始时，ORACLE将为该事务分配回滚段，并将拥有最少事务的回滚段分配给该事务。事务可以用以下语句申请指定的回滚段： 
+</code></pre><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> TRANSTRACTION <span class="keyword">USE</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment</span><br></pre></td></tr></table></figure>
+<p>事务将以顺序，循环的方式使用回滚段的区（EXTENTS），当当前区用满后移到下一个区。几个事务可以写在回滚段的同一个区，但每个回滚段的块只能包含一个事务的信息。 </p>
+<p>例如（两个事务使用同一个回滚段，该回滚段有四个区）： </p>
+<ol>
+<li>事务在进行中，它们正在使用回滚段的第三个区； </li>
+<li>当两个事务产生更多的回滚信息，它们将继续使用第三个区； </li>
+<li>当第三个区满后，事务将写到第四个区，当事务开始写到一个新的区时，称为翻转（WRAP）； </li>
+<li>当第四个区用满时，如果第一个区是空闲或非活动（使用该区的所有事务完成而没有活动的事务）的，事务将接着使用第一个区。 </li>
+</ol>
+<h3 id="回滚段的扩张（EXTEND）"><a href="#回滚段的扩张（EXTEND）" class="headerlink" title="回滚段的扩张（EXTEND）"></a>回滚段的扩张（EXTEND）</h3><p>当当前回滚段区的所有块用完而事务还需要更多的回滚空间时，回滚段的指针将移到下一个区。当最后一个区用完，指针将移到第一个区的前面。回滚段指针移到下一个区的前提是下一个区没有活动的事务，同时指针不能跨区。当下一个区正在使用时，事务将为回滚段分配一个新的区，这种分配称为回滚段的扩展。回滚段将一直扩展到该回滚段区的个数到达回滚段的参数MAXEXTENTS的值时为止。 </p>
+<h3 id="回滚段的回收和OPTIMAL参数"><a href="#回滚段的回收和OPTIMAL参数" class="headerlink" title="回滚段的回收和OPTIMAL参数"></a>回滚段的回收和OPTIMAL参数</h3><p>OPTIMAL参数指明回滚段空闲时收缩到的位置，指明回滚段的OPTIMAL参数可以减少回滚段空间的浪费。</p>
+<h4 id="创建回滚段"><a href="#创建回滚段" class="headerlink" title="创建回滚段"></a>创建回滚段</h4><p>　　<strong>语法：</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">PUBLIC</span>] <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment </span><br><span class="line">　　　　 [<span class="keyword">TABLESPACE</span> <span class="keyword">tablespace</span>] </span><br><span class="line">　　　　 [<span class="keyword">STORAGE</span> ([<span class="keyword">INITIAL</span> <span class="built_in">integer</span>[K|M]] [<span class="keyword">NEXT</span> <span class="built_in">integer</span>[K|M]] </span><br><span class="line">　　　　　　　　　　 [<span class="keyword">MINEXTENTS</span> <span class="built_in">integer</span>] </span><br><span class="line">　　　　　　　　　　 [MAXTENTS &#123;<span class="built_in">integer</span>|<span class="keyword">UNLIMITED</span>&#125;] </span><br><span class="line">　　　　　　　　　　 [<span class="keyword">OPTIMAL</span> &#123;<span class="built_in">integer</span>[K|M]|<span class="literal">NULL</span>&#125;]) ]</span><br></pre></td></tr></table></figure></p>
+<p>　　注：<br>　　 回滚段可以在创建时指明PRIVATE或PUBLIC，一旦创建将不能修改。<br>　　 MINEXTENTS 必须大于等于2<br>　　 PCTINCREASE必须是0<br>　　 OPTIMAL如果要指定，必须大于等于回滚段的初始大小（由MINEXTENTS指定）<br>　　<br> <strong> 建议： </strong><br>　　 一般情况下，INITIAL=NEXT<br>　　 设置OPTIMAL参数来节约空间的使用<br>　　 不要设置MAXEXTENTS为UNLIMITED<br>　　 回滚段应创建在一个特定的回滚段表空间内<br>　　例：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rbs01 </span><br><span class="line">　　 <span class="keyword">TABLESPACE</span> rbs </span><br><span class="line">　　 <span class="keyword">STORAGE</span> ( <span class="keyword">INITIAL</span> <span class="number">100</span>K <span class="keyword">NEXT</span> <span class="number">100</span>K <span class="keyword">MINEXTENTS</span> <span class="number">10</span> </span><br><span class="line">　　　　　　 <span class="keyword">MAXEXTENTS</span> <span class="number">500</span> <span class="keyword">OPTIMAL</span> <span class="number">1000</span>K);</span><br></pre></td></tr></table></figure></p>
+<h4 id="使回滚段在线"><a href="#使回滚段在线" class="headerlink" title="使回滚段在线"></a>使回滚段在线</h4><p>　　当回滚段创建后，回滚段是离线的，不能被数据库使用，为了使回滚段被事务利用，必须将回滚段在线。可以用以下命令使回滚段在线： </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment <span class="keyword">ONLINE</span>; </span><br><span class="line">　　例： </span><br><span class="line">　　<span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rbs01 <span class="keyword">ONLINE</span>；</span><br></pre></td></tr></table></figure>
+<p>　　为了使回滚段在数据库启动时自动在线，可以在数据库的参数文件中列出回滚段的名字。例如在参数文件中加入以下一行：<br>　　ROLLBACK_SEGMENT=(rbs01,rbs02) </p>
+<h4 id="修改回滚段的存储参数"><a href="#修改回滚段的存储参数" class="headerlink" title="修改回滚段的存储参数"></a>修改回滚段的存储参数</h4><p>　　可以使用ALTER ROLLBACK SEGMENT命令修改回滚段的存储参数（包括OPTIMAL，MAXEXTENTS）。<br>　　语法：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment </span><br><span class="line">　　[<span class="keyword">STORAGE</span> ([<span class="keyword">NEXT</span> <span class="built_in">integer</span>[K|M]] </span><br><span class="line">　　　　　　 [<span class="keyword">MINEXTENTS</span> <span class="built_in">integer</span>] </span><br><span class="line">　　　　　　 [<span class="keyword">MAXEXTENTS</span> &#123;<span class="built_in">integer</span>|<span class="keyword">UNLIMITED</span>&#125;] </span><br><span class="line">　　　　　　 [<span class="keyword">OPTIMAL</span> &#123;<span class="built_in">integer</span>[K|M]|<span class="literal">NULL</span>&#125;]) ] </span><br><span class="line">　　例： </span><br><span class="line">　　<span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rbs01 <span class="keyword">STORAGE</span> (<span class="keyword">MAXEXTENTS</span> <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="回收回滚段的空间"><a href="#回收回滚段的空间" class="headerlink" title="回收回滚段的空间"></a>回收回滚段的空间</h4><p>　　如果指定了回滚段的OPTIMAL参数，ORACLE将自动回收回滚段到OPTIMAL指定的位置。用户也可以手动回收回滚段的空间。 </p>
+<p>　　语法：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment <span class="keyword">SHRINK</span> [<span class="keyword">TO</span> <span class="built_in">integer</span> [K|M]]; </span><br><span class="line">　　说明： </span><br><span class="line">　　 如果不指明TO integer的数值，ORACLE将试图回收到OPTIMAL的位置。 </span><br><span class="line">　　例： </span><br><span class="line">　　<span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rbs01 <span class="keyword">SHRINK</span> <span class="keyword">TO</span> <span class="number">2</span>M;</span><br></pre></td></tr></table></figure></p>
+<h4 id="使回滚段离线"><a href="#使回滚段离线" class="headerlink" title="使回滚段离线"></a>使回滚段离线</h4><p>　　为了达到以下两个目的将要回滚段离线：<br>　　1.阻止新的事务使用该回滚段；<br>　　2.该回滚段必须删除。 </p>
+<p>　　<strong>语法： </strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　 <span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rollback_segment <span class="keyword">OFFLINE</span>; </span><br><span class="line">　　例： </span><br><span class="line">　　 <span class="keyword">ALTER</span> <span class="keyword">ROLLBACK</span> <span class="keyword">SEGMENT</span> rbs01 <span class="keyword">OFFLINE</span>;</span><br></pre></td></tr></table></figure></p>
+<p>　　<strong>说明： </strong><br>　　 如果有事务正在使用该回滚段，运行该命令后，回滚段的状态将是PENDING OFFLINE。事务结束后，状态将改为OFFLINE，可以通过V$ROLLSTAT查询回滚段的状态。 </p>
+<h4 id="删除回滚段"><a href="#删除回滚段" class="headerlink" title="删除回滚段"></a>删除回滚段</h4><p>　　当回滚段不再需要或要重建以改变INITIAL，NEXT或MINEXTENTS参数时，可以将其删除。要删除回滚段，不许使该回滚段离线。 </p>
+<p>语法：<br>　　<code>DROP ROLLBACK SEGMENT rollback_segment;</code><br>例：<br>　　<code>DROP ROLLBACK SEGMENT rbs01;</code></p>
+<h4 id="查询回滚段的信息"><a href="#查询回滚段的信息" class="headerlink" title="查询回滚段的信息"></a>查询回滚段的信息</h4><p>　　所用数据字典：DBA_ROLLBACK_SEGS </p>
+<p>　　可以查询的信息：回滚段的标识(SEGMENT_ID)、名称(SEGMENT_NAME)、所在表空间(TABLESPACE_NAME)、类型(OWNER)、状态(STATUS)。<br>　　例：<br>　　SQL&gt;<code>SELECT segment_name,tablespace_name,owner,status FROM dba_rollback_segs;</code></p>
+<h4 id="回滚段的统计信息"><a href="#回滚段的统计信息" class="headerlink" title="回滚段的统计信息"></a>回滚段的统计信息</h4><p>　　数据字典：V$ROLLNAME,V$ROLLSTAT<br>　　例：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="keyword">SELECT</span> n.name,s.extents,s.rssize,s.optsize,s.hwmsize,s.xacts,s.status </span><br><span class="line">　　　　<span class="keyword">FROM</span> v$rollname n,v$rollstat s </span><br><span class="line">　　　　<span class="keyword">WHERE</span> n.usn=s.usn;</span><br></pre></td></tr></table></figure></p>
+<h4 id="回滚段的当前活动事务"><a href="#回滚段的当前活动事务" class="headerlink" title="回滚段的当前活动事务"></a>回滚段的当前活动事务</h4><p>　　数据字典：V$SESSION,V$TRANSACTION </p>
+<p>　　例：<br> <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.username,t.xidusn,t.ubafil,t.ubablk,t.used_ublk </span><br><span class="line">　　　　<span class="keyword">FROM</span> v$<span class="keyword">session</span> s,v$<span class="keyword">transaction</span> t </span><br><span class="line">　　　　<span class="keyword">WHERE</span> s.saddr=t.ses_addr;</span><br></pre></td></tr></table></figure></p>
+<p>　　 USERNAME　　XIDUSN　　 UBAFIL　　 UBABLK　　USED_UBLK </p>
+<p>　　 ——-　　——– ———– ———– ———–<br>　　 SYSTEM　　　　　　2　　　　　　2　　　　 7　　　　　　1<br>　　 SCOTT　　　　　　 1　　　　　　2　　　　163　　　　　　1<br>　　 2 rows selected. </p>
+<h4 id="回滚段的数量规划"><a href="#回滚段的数量规划" class="headerlink" title="回滚段的数量规划"></a>回滚段的数量规划</h4><p>　　对于OLTP系统，存在大量的小事务处理，一般建议：<br>　　数量多的小回滚段；每四个事务一个回滚段；每个回滚段不要超过十个事务。<br>　　对于批处理，一般建议： </p>
+<p>　　少的大回滚段；每个事务一个回滚段。 </p>
+<h4 id="回滚段的问题及解决方法"><a href="#回滚段的问题及解决方法" class="headerlink" title="回滚段的问题及解决方法"></a>回滚段的问题及解决方法</h4><p>　　问题一：事务要求的回滚段空间不够，表现为表空间用满（ORA-01560错误），回滚段扩展到达参数MAXEXTENTS的值（ORA-01628）。<br>　　解决方法：向回滚段表空间添加文件或使已有的文件变大；增加MAXEXTENTS的值。<br>　　问题二：读一致性错误（ORA-01555 SNAPSHOT TOO OLD）<br>　　解决方法：增加MINEXTENTS的值，增加区的大小，设置一个高的OPTIMAL值。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/" data-id="cjw28einn004ng8tm5pndilx1" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "ORACLE 回滚段管理",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发 系统架构 数据存储 Oracle",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/",
+        "description": "[TOC]
+回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 
+回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 
+回滚段的作用
+事务回滚：当事务修改表中数据的时候，该数据修改"
+        "wordCount": 485
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/金融/投资/108个经济学常识/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            108个经济学常识
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">ORACLE 锁管理</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

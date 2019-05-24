@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Redis | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。 使用 Redis 的常见问题  缓存和数据库双写一致性问题 缓存雪崩问题 缓存击穿问题 缓存的并发竞争问题  Redis 是单线程工作模型。 原因主要是以下三点：  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/分布式缓存/Redis/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。 使用 Redis 的常见问题  缓存和数据库双写一致性问题 缓存雪崩问题 缓存击穿问题 缓存的并发竞争问题  Redis 是单线程工作模型。 原因主要是以下三点：  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:14:57.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis">
+<meta name="twitter:description" content="Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。 使用 Redis 的常见问题  缓存和数据库双写一致性问题 缓存雪崩问题 缓存击穿问题 缓存的并发竞争问题  Redis 是单线程工作模型。 原因主要是以下三点：  纯内存操作 单线程操作，避免了频繁的上下文切换 采用了非">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/分布式缓存/Redis" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Redis
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p>在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。</p>
+<p>使用 Redis 的常见问题</p>
+<ul>
+<li>缓存和数据库双写一致性问题</li>
+<li>缓存雪崩问题</li>
+<li>缓存击穿问题</li>
+<li>缓存的并发竞争问题</li>
+</ul>
+<p>Redis 是单线程工作模型。</p>
+<p>原因主要是以下三点：</p>
+<ul>
+<li>纯内存操作</li>
+<li>单线程操作，避免了频繁的上下文切换</li>
+<li>采用了非阻塞 I/O 多路复用机制</li>
+</ul>
+<p>热数据和冷数据</p>
+<h2 id="值类型"><a href="#值类型" class="headerlink" title="值类型"></a>值类型</h2><ul>
+<li>Lists: 按插入顺序排序的字符串元素的集合。他们基本上就是链表（linked lists）。</li>
+<li>Sets: 不重复且无序的字符串元素的集合。</li>
+<li>Sorted sets,类似Sets,但是每个字符串元素都关联到一个叫score浮动数值（floating number value）。里面的元素总是通过- score进行着排序，所以不同的是，它是可以检索的一系列元素。（例如你可能会问：给我前面10个或者后面10个元素）。</li>
+<li>Hashes,由field和关联的value组成的map。field和value都是字符串的。这和Ruby、Python的hashes很像。</li>
+<li>Bit arrays (或者说 simply bitmaps): 通过特殊的命令，你可以将 String 值当作一系列 bits 处理：可以设置和清除单独的 - bits，数出所有设为 1 的 bits 的数量，找到最前的被设为 1 或 0 的 bit，等等。</li>
+<li>HyperLogLogs: 这是被用于估计一个 set 中元素数量的概率性的数据结构</li>
+</ul>
+<h2 id="redis持久化"><a href="#redis持久化" class="headerlink" title="redis持久化"></a>redis持久化</h2><p>redis支持两种持久化的方式，可以单独使用或者结合起来使用<br>第一种：RDB方式（redis默认的持久化方式）<br>第二种：AOF方式</p>
+<p>一、RDB<br>rdb方式的持久化是通过快照完成的，当符合一定条件时redis会自动将内存中的所有数据执行快照操作并存储到硬盘上。默认存储在redis根目录的dump.rdb文件中。(文件名在配置文件中dbfilename)<br>redis进行快照的时机（在配置文件redis.conf中）<br>save 900 1：表示900秒内至少一个键被更改则进行快照。<br>save 300 10<br>save 60 10000</p>
+<p>redis自动实现快照的过程<br>1：redis使用fork函数复制一份当前进程的副本(子进程)<br>2：父进程继续接收并处理客户端发来的命令，而子进程开始将内存中的数据写入硬盘中的临时文件<br>3：当子进程写入完所有数据后会用该临时文件替换旧的RDB文件，至此，一次快照操作完成。<br>注意：redis在进行快照的过程中不会修改RDB文件，只有快照结束后才会将旧的文件替换成新的，也就是说任何时候RDB文件都是完整的。 这就使得我们可以通过定时备份RDB文件来实现redis数据库的备份， RDB文件是经过压缩的二进制文件，占用的空间会小于内存中的数据，更加利于传输。</p>
+<p>手动执行save或者bgsave命令让redis执行快照。<br>两个命令的区别在于，save是由主进程进行快照操作，会阻塞其它请求。bgsave是由redis执行fork函数复制出一个子进程来进行快照操作。<br>文件修复：redis-check-dump</p>
+<p>RDB存在哪些优势呢？<br>1). 一旦采用该方式，那么你的整个Redis数据库将只包含一个文件，这对于文件备份而言是非常完美的。比如，你可能打算每个小时归档一次最近24小时的数据，同时还要每天归档一次最近30天的数据。通过这样的备份策略，一旦系统出现灾难性故障，我们可以非常容易的进行恢复。</p>
+<p>2). 对于灾难恢复而言，RDB是非常不错的选择。因为我们可以非常轻松的将一个单独的文件压缩后再转移到其它存储介质上。</p>
+<p>3). 性能最大化。对于Redis的服务进程而言，在开始持久化时，它唯一需要做的只是fork出子进程，之后再由子进程完成这些持久化的工作，这样就可以极大的避免服务进程执行IO操作了。</p>
+<p>4). 相比于AOF机制，如果数据集很大，RDB的启动效率会更高。</p>
+<p>RDB又存在哪些劣势呢？</p>
+<p>1). 如果你想保证数据的高可用性，即最大限度的避免数据丢失，那么RDB将不是一个很好的选择。因为系统一旦在定时持久化之前出现宕机现象，此前没有来得及写入磁盘的数据都将丢失。</p>
+<p>2). 由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</p>
+<p>二、AOF</p>
+<p> aof方式的持久化是通过日志文件的方式。默认情况下redis没有开启aof，可以通过参数appendonly参数开启。<br> appendonly yes<br> aof文件的保存位置和rdb文件的位置相同，都是dir参数设置的，默认的文件名是appendonly.aof，可以通过      appendfilename参数修改<br> appendfilename appendonly.aof<br> redis写命令同步的时机<br> a ppendfsync always 每次都会执行<br> appendfsync everysec 默认 每秒执行一次同步操作（推荐，默认）<br> appendfsync no不主动进行同步，由操作系统来做，30秒一次<br> aof日志文件重写<br> auto-aof-rewrite-percentage 100(当目前aof文件大小超过上一次重写时的aof文件大小的百分之多少时会再次进行重写，如果之前没有重写，则以启动时的aof文件大小为依据)<br> auto-aof-rewrite-min-size 64mb<br> 手动执行bgrewriteaof进行重写</p>
+<p>AOF的优势有哪些呢？</p>
+<p>1). 该机制可以带来更高的数据安全性，即数据持久性。Redis中提供了3中同步策略，即每秒同步、每修改同步和不同步。事实上，每秒同步也是异步完成的，其效率也是非常高的，所差的是一旦系统出现宕机现象，那么这一秒钟之内修改的数据将会丢失。而每修改同步，我们可以将其视为同步持久化，即每次发生的数据变化都会被立即记录到磁盘中。可以预见，这种方式在效率上是最低的。至于无同步，无需多言，我想大家都能正确的理解它。</p>
+<p>2). 由于该机制对日志文件的写入操作采用的是append模式，因此在写入过程中即使出现宕机现象，也不会破坏日志文件中已经存在的内容。然而如果我们本次操作只是写入了一半数据就出现了系统崩溃问题，不用担心，在Redis下一次启动之前，我们可以通过redis-check-aof工具来帮助我们解决数据一致性的问题。</p>
+<p>3). 如果日志过大，Redis可以自动启用rewrite机制。即Redis以append模式不断的将修改数据写入到老的磁盘文件中，同时Redis还会创建一个新的文件用于记录此期间有哪些修改命令被执行。因此在进行rewrite切换时可以更好的保证数据安全性。</p>
+<p>4). AOF包含一个格式清晰、易于理解的日志文件用于记录所有的修改操作。事实上，我们也可以通过该文件完成数据的重建。</p>
+<p>AOF的劣势有哪些呢？</p>
+<p>1). 对于相同数量的数据集而言，AOF文件通常要大于RDB文件。RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。</p>
+<p>2). 根据同步策略的不同，AOF在运行效率上往往会慢于RDB。总之，每秒同步策略的效率是比较高的，同步禁用策略的效率和RDB一样高效。</p>
+<p>二者选择的标准，就是看系统是愿意牺牲一些性能，换取更高的缓存一致性（aof），还是愿意写操作频繁的时候，不启用备份来换取更高的性能，待手动运行save的时候，再做备份（rdb）。rdb这个就更有些 eventually consistent的意思了。</p>
+<h2 id="高可用（多副本Replication"><a href="#高可用（多副本Replication" class="headerlink" title="高可用（多副本Replication)"></a>高可用（多副本Replication)</h2><p>在 Redis 复制的基础上，使用和配置主从复制非常简单，能使得从 Redis 服务器（下文称 slave）能精确得复制主 Redis 服务器（下文称 master）的内容。</p>
+<ul>
+<li>当一个 master 实例和一个 slave 实例连接正常时， master 会发送一连串的命令流来保持对 slave 的更新，以便于将自身数据集的改变复制给 slave ， ：包括客户端的写入、key 的过期或被逐出等等。</li>
+<li>当 master 和 slave 之间的连接断开之后，因为网络问题、或者是主从意识到连接超时， slave 重新连接上 master 并会尝试进行部分重同步：这意味着它会尝试只获取在断开连接期间内丢失的命令流。</li>
+<li>当无法进行部分重同步时， slave 会请求进行全量重同步。这会涉及到一个更复杂的过程，例如 master 需要创建所有数据的快照，将之发送给 slave ，之后在数据集更改时持续发送命令流到 slave 。</li>
+</ul>
+<h3 id="选举机制"><a href="#选举机制" class="headerlink" title="选举机制"></a>选举机制</h3><ol>
+<li>Slave of：在slave中指定master，但是如果master不可用，不会自动切换slave</li>
+<li>哨兵：监控master和slave，保证master不可用时可以自动切换slave</li>
+</ol>
+<p>Redis 的 Sentinel 系统用于管理多个 Redis 服务器（instance）， 该系统执行以下三个任务：</p>
+<ul>
+<li>监控（Monitoring）： Sentinel 会不断地检查你的主服务器和从服务器是否运作正常。</li>
+<li>提醒（Notification）： 当被监控的某个 Redis 服务器出现问题时， Sentinel 可以通过 API 向管理员或者其他应用程序发送通知。</li>
+<li>自动故障迁移（Automatic failover）： 当一个主服务器不能正常工作时， Sentinel 会开始一次自动故障迁移操作， 它会将失效主服务器的其中一个从服务器升级为新的主服务器， 并让失效主服务器的其他从服务器改为复制新的主服务器； 当客户端试图连接失效的主服务器时， 集群也会向客户端返回新主服务器的地址， 使得集群可以使用新主服务器代替失效服务器。</li>
+</ul>
+<ol start="3">
+<li>redis-cluster</li>
+</ol>
+<p>Redis集群搭建的方式有多种，例如使用zookeeper等，但从redis 3.0之后版本支持redis-cluster集群，Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接</p>
+<p>其结构特点：</p>
+<pre><code>1. 所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。
+2. 节点的fail是通过集群中超过半数的节点检测失效时才生效。
+3. 客户端与redis节点直连,不需要中间proxy层.客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。
+4. redis-cluster把所有的物理节点映射到[0-16383]slot上（不一定是平均分配）,cluster 负责维护node&lt;-&gt;slot&lt;-&gt;value。
+5. Redis集群预分好16384个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384的值，决定将一个key放到哪个桶中
+</code></pre><p>集群中至少应该有奇数个节点，所以至少有三个节点，每个节点至少有一个备份节点，所以下面使用6节点（主节点、备份节点由redis-cluster集群确定）。</p>
+<h3 id="Redis主从复制原理"><a href="#Redis主从复制原理" class="headerlink" title="Redis主从复制原理"></a>Redis主从复制原理</h3><p>Redis虽然读取写入的速度都特别快，但是也会产生读压力特别大的情况。为了分担读压力，Redis支持主从复制，Redis的主从结构可以采用一主多从或者级联结构，Redis主从复制可以根据是否是全量分为全量同步和增量同步。</p>
+<h4 id="全量同步"><a href="#全量同步" class="headerlink" title="全量同步"></a>全量同步</h4><p>Redis全量复制一般发生在Slave初始化阶段，这时Slave需要将Master上的所有数据都复制一份。具体步骤如下：<br>　　1）从服务器连接主服务器，发送SYNC命令；<br>　　2）主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；<br>　　3）主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；<br>　　4）从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；<br>　　5）主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令；<br>　　6）从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；</p>
+<h4 id="增量同步"><a href="#增量同步" class="headerlink" title="增量同步"></a>增量同步</h4><p>Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。<br>增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令</p>
+<h4 id="Redis主从同步策略"><a href="#Redis主从同步策略" class="headerlink" title="Redis主从同步策略"></a>Redis主从同步策略</h4><p>主从刚刚连接的时候，进行全量同步；全同步结束后，进行增量同步。当然，如果有需要，slave 在任何时候都可以发起全量同步。redis 策略是，无论如何，首先会尝试进行增量同步，如不成功，要求从机进行全量同步</p>
+<p>如果多个Slave断线了，需要重启的时候，因为只要Slave启动，就会发送sync请求和主机全量同步，当多个同时出现的时候，可能会导致Master IO剧增宕机</p>
+<h2 id="水平扩展-分区Partitioning"><a href="#水平扩展-分区Partitioning" class="headerlink" title="水平扩展(分区Partitioning )"></a>水平扩展(分区Partitioning )</h2><ul>
+<li>The normal client communication port (usually 6379) used to communicate with clients to be open to all the clients that need to reach the cluster, plus all the other cluster nodes (that use the client port for keys migrations).</li>
+<li>The cluster bus port (the client port + 10000) must be reachable from all the other cluster nodes.</li>
+</ul>
+<p>分区是将你的数据分发到不同redis实例上的一个过程，每个redis实例只是你所有key的一个子集</p>
+<p>Redis分区主要有两个目的:</p>
+<ul>
+<li>分区可以让Redis管理更大的内存，Redis将可以使用所有机器的内存。如果没有分区，你最多只能使用一台机器的内存。</li>
+<li>分区使Redis的计算能力通过简单地增加计算机得到成倍提升,Redis的网络带宽也会随着计算机和网卡的增加而成倍增长。</li>
+</ul>
+<h3 id="读写路由，Partitioning的不同实现方式"><a href="#读写路由，Partitioning的不同实现方式" class="headerlink" title="读写路由，Partitioning的不同实现方式"></a>读写路由，Partitioning的不同实现方式</h3><p>分区可以在程序的不同层次实现。</p>
+<ul>
+<li>客户端分区就是在客户端就已经决定数据会被存储到哪个redis节点或者从哪个redis节点读取。大多数客户端已经实现了客户端分区。</li>
+<li>代理分区 意味着客户端将请求发送给代理，然后代理决定去哪个节点写数据或者读数据。代理根据分区规则决定请求哪些Redis实例，然后根据Redis的响应结果返回给客户端。redis和memcached的一种代理实现就是Twemproxy</li>
+<li>查询路由(Query routing) 的意思是客户端随机地请求任意一个redis实例，然后由Redis将请求转发给正确的Redis节点。Redis Cluster实现了一种混合形式的查询路由，但并不是直接将请求从一个redis节点转发到另一个redis节点，而是在客户端的帮助下直接redirected到正确的redis节点。</li>
+</ul>
+<h3 id="写入时Sharding-策略"><a href="#写入时Sharding-策略" class="headerlink" title="写入时Sharding 策略"></a>写入时Sharding 策略</h3><p>Redis集群是 query routing 和 client side partitioning的一种混合实现。</p>
+<p>Redis 集群没有使用一致性hash, 而是引入了 哈希槽的概念.</p>
+<p>Redis 集群有16384个哈希槽,每个key通过CRC16校验后对16384取模来决定放置哪个槽.集群的每个节点负责一部分hash槽,举个例子,比如当前集群有3个节点,那么:</p>
+<ul>
+<li>节点 A 包含 0 到 5500号哈希槽.</li>
+<li>节点 B 包含5501 到 11000 号哈希槽.</li>
+<li>节点 C 包含11001 到 16384号哈希槽.</li>
+</ul>
+<h3 id="一致性保证"><a href="#一致性保证" class="headerlink" title="一致性保证"></a>一致性保证</h3><p>Redis 并不能保证数据的强一致性. 这意味这在实际中集群在特定的条件下可能会丢失写操作.</p>
+<p>第一个原因是因为集群是用了异步复制. 写操作过程:</p>
+<ul>
+<li>客户端向主节点B写入一条命令.</li>
+<li>主节点B向客户端回复命令状态.</li>
+<li>主节点将写操作复制给他得从节点 B1, B2 和 B3.</li>
+</ul>
+<p>主节点对命令的复制工作发生在返回命令回复之后， 因为如果每次处理命令请求都需要等待复制操作完成的话， 那么主节点处理命令请求的速度将极大地降低 —— 我们必须在性能和一致性之间做出权衡。</p>
+<h3 id="数据自动均衡"><a href="#数据自动均衡" class="headerlink" title="数据自动均衡"></a>数据自动均衡</h3><p>Resharding就是把hash slots从一个实例复制到另一个实例，redis还不能自动reshard，可以用redis-cli来实现</p>
+<p>./redis-trib.rb reshard 127.0.0.1:7000</p>
+<h2 id="缓存穿透和缓存雪崩问题"><a href="#缓存穿透和缓存雪崩问题" class="headerlink" title="缓存穿透和缓存雪崩问题"></a>缓存穿透和缓存雪崩问题</h2><p>缓存穿透，即黑客故意去请求缓存中不存在的数据，导致所有的请求都怼到数据库上，从而数据库连接异常。</p>
+<h3 id="缓存穿透解决方案："><a href="#缓存穿透解决方案：" class="headerlink" title="缓存穿透解决方案："></a>缓存穿透解决方案：</h3><ul>
+<li>利用互斥锁，缓存失效的时候，先去获得锁，得到锁了，再去请求数据库。没得到锁，则休眠一段时间重试。</li>
+<li>采用异步更新策略，无论 Key 是否取到值，都直接返回。Value 值中维护一个缓存失效时间，缓存如果过期，异步起一个线程去读数据库，更新缓存。需要做缓存预热(项目启动前，先加载缓存)操作。</li>
+<li>提供一个能迅速判断请求是否有效的拦截机制，比如，利用布隆过滤器，内部维护一系列合法有效的 Key。迅速判断出，请求所携带的 Key 是否合法有效。如果不合法，则直接返回。</li>
+</ul>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>缓存雪崩，即缓存同一时间大面积的失效，这个时候又来了一波请求，结果请求都怼到数据库上，从而导致数据库连接异常。</p>
+<p>缓存雪崩解决方案：</p>
+<ul>
+<li>给缓存的失效时间，加上一个随机值，避免集体失效。</li>
+<li>使用互斥锁，但是该方案吞吐量明显下降了。</li>
+<li>双缓存。我们有两个缓存，缓存 A 和缓存 B。缓存 A 的失效时间为 20 分钟，缓存 B 不设失效时间。自己做缓存预热操作。</li>
+<li>然后细分以下几个小点：从缓存 A 读数据库，有则直接返回；A 没有数据，直接从 B 读数据，直接返回，并且异步启动一个更新线程，更新线程同时更新缓存 A 和缓存 B。</li>
+</ul>
+<h2 id="redis-基本配置"><a href="#redis-基本配置" class="headerlink" title="redis 基本配置"></a>redis 基本配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>what?局域网内本机IP。</span><br><span class="line"><span class="meta">#</span>why?只接受外部程序发送到IP 172.17.84.39的数据。 </span><br><span class="line"><span class="meta">#</span>resoult:更加安全，因为只有同一局域网内的机器能够访问。当然也可以把bind注释掉，以支持包括外网在内的所有IP。</span><br><span class="line">bind 172.17.84.39</span><br><span class="line"><span class="meta">#</span>修改默认端口，避免被恶意脚本扫描。</span><br><span class="line">port 9999</span><br><span class="line">loglevel debug</span><br><span class="line">logfile /usr/local/redis/logs/redis.log.9999</span><br><span class="line"><span class="meta">#</span>为服务设置安全密码</span><br><span class="line">requirepass redispass</span><br><span class="line"><span class="meta">#</span>以守护进程方式运行</span><br><span class="line">daemonize yes</span><br></pre></td></tr></table></figure>
+<h3 id="主从复制（master-slave）"><a href="#主从复制（master-slave）" class="headerlink" title="主从复制（master-slave）"></a>主从复制（master-slave）</h3><p>主从模式的两个重要目的，提升系统可靠性和读写分离提升部分性能</p>
+<p>slave机需要修改一下配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">port 9997</span><br><span class="line">logfile /usr/local/redis/logs/redis.log.9997</span><br><span class="line"><span class="meta">#</span>指定master ip port</span><br><span class="line">slaveof 172.17.84.39 9999</span><br><span class="line"><span class="meta">#</span>认证master时需要的密码。必须和master配置的requirepass 保持一致</span><br><span class="line">masterauth redispass</span><br><span class="line">protected-mode no</span><br></pre></td></tr></table></figure>
+<h3 id="Replication-sentinel模式故障自动迁移"><a href="#Replication-sentinel模式故障自动迁移" class="headerlink" title="Replication (sentinel模式故障自动迁移)"></a>Replication (sentinel模式故障自动迁移)</h3><p>Master-slave主从复制避免了数据丢失带来的灾难性后果。</p>
+<p>但是单点故障仍然存在，在运行期间master宕机需要停机手动切换。</p>
+<p>Sentinel很好的解决了这个问题，当Master-slave模式中的Master宕机后，能够自主切换，选择另一个可靠的redis-server充当master角色，使系统仍正常运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>服务运行端口号</span><br><span class="line">port 26379</span><br><span class="line"><span class="meta">#</span>mymaster为指定的master服务器起一个别名</span><br><span class="line"><span class="meta">#</span>master IP和端口号</span><br><span class="line"><span class="meta">#</span>2的含义：当开启的sentinel server认为当前master主观下线的（+sdown）数量达到2时，则sentinel server认为当前master客观下线（+odown）系统开始自动迁移。2的计算（建议）：sentinel server数量的大多数，至少为count（sentinel server）/2 向上取整。2&gt;3/2（主观下线与客观下线？）</span><br><span class="line">sentinel monitor mymaster 172.17.84.39 9999 2</span><br><span class="line"><span class="meta">#</span>master别名和认证密码。这就提醒了用户，在master-slave系统中，各服务的认证密码应该保持一致。</span><br><span class="line">sentinel auth-pass mymaster redispass</span><br><span class="line"><span class="meta">#</span>以守护进程方式运行</span><br><span class="line">daemonize yes</span><br><span class="line">logfile /usr/local/redis/logs/sentinel.log.26379</span><br><span class="line">protected-mode no</span><br><span class="line">sentinel down-after-milliseconds mymaster 6000</span><br><span class="line">sentinel failover-timeout mymaster 18000</span><br></pre></td></tr></table></figure>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p>redis.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port 7000</span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-config-file nodes.conf</span><br><span class="line">cluster-node-timeout 5000</span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure></p>
+<p>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17001/redis.conf &amp;<br>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17002/redis.conf &amp;<br>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17003/redis.conf &amp;<br>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17004/redis.conf &amp;<br>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17005/redis.conf &amp;<br>~/Work/Develop/redis-5.0.3/src/redis-server ~/Work/Develop/redis-5.0.3/cluster/17006/redis.conf &amp;</p>
+<h4 id="搭建集群"><a href="#搭建集群" class="headerlink" title="搭建集群"></a>搭建集群</h4><p>通过向实例发送特殊命令来完成创建新集群</p>
+<p>~/Work/Develop/redis-5.0.3/src/redis-cli –cluster create 127.0.0.1:17006 127.0.0.1:17001 127.0.0.1:17002 127.0.0.1:17003 127.0.0.1:17004 127.0.0.1:17005 –cluster-replicas 1</p>
+<p>这个命令在这里用于创建一个新的集群, 选项–replicas 1 表示我们希望为集群中的每个主节点创建一个从节点</p>
+<h4 id="测试集群"><a href="#测试集群" class="headerlink" title="测试集群"></a>测试集群</h4><p>写入数据<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">~/Work/Develop/redis-5.0.3/src/redis-cli -c -p 17001</span><br><span class="line">127.0.0.1:17001&gt; set foo bar</span><br><span class="line"><span class="meta">-&gt;</span> Redirected to slot [12182] located at 127.0.0.1:17002</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:17002&gt; set hello world</span><br><span class="line"><span class="meta">-&gt;</span> Redirected to slot [866] located at 127.0.0.1:17006</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></p>
+<p>~/Work/Develop/redis-5.0.3/src/redis-cli -p 17001 cluster nodes </p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/分布式缓存/Redis/" data-id="cjw28eigk002fg8tmgyiyqlpd" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "Redis",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发 系统架构 分布式缓存",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/分布式缓存/Redis/",
+        "description": "Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。
+使用 Redis 的常见问题
+
+缓存和数据库双写一致性问题
+缓存雪崩问题
+缓存击穿问题
+缓存的并发竞争问题
+
+Redis 是单线程工作模型。
+原因主要是以下三点：
+
+纯内存操作
+单线程操作，避免了频繁的上下文切换
+采用了非"
+        "wordCount": 617
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/软件开发/系统架构/搜索引擎/Lucence/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Lucence
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Hibernate</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/分布式缓存/Redis/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

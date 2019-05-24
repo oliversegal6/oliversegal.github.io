@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Tech图谱 | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="[TOC] 软件开发语言PythonJava集合对象 java各种集合对象的实现原理 熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间  NIO + Netty高并发编程 io nio 网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解 通信框架Netty实战部署以及Netty服务讲解 Netty的TCP粘包拆包、序列化以及自定义协议 Netty实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tech图谱">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/Tech图谱/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="[TOC] 软件开发语言PythonJava集合对象 java各种集合对象的实现原理 熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间  NIO + Netty高并发编程 io nio 网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解 通信框架Netty实战部署以及Netty服务讲解 Netty的TCP粘包拆包、序列化以及自定义协议 Netty实">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:18:27.733Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tech图谱">
+<meta name="twitter:description" content="[TOC] 软件开发语言PythonJava集合对象 java各种集合对象的实现原理 熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间  NIO + Netty高并发编程 io nio 网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解 通信框架Netty实战部署以及Netty服务讲解 Netty的TCP粘包拆包、序列化以及自定义协议 Netty实">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/Tech图谱" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Tech图谱
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/Tech图谱/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>[TOC]</p>
+<h1 id="软件开发"><a href="#软件开发" class="headerlink" title="软件开发"></a>软件开发</h1><h2 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h2><h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h3 id="Java"><a href="#Java" class="headerlink" title="Java"></a>Java</h3><h4 id="集合对象"><a href="#集合对象" class="headerlink" title="集合对象"></a>集合对象</h4><ul>
+<li>java各种集合对象的实现原理</li>
+<li>熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间</li>
+</ul>
+<h4 id="NIO-Netty高并发编程"><a href="#NIO-Netty高并发编程" class="headerlink" title="NIO + Netty高并发编程"></a>NIO + Netty高并发编程</h4><ul>
+<li>io</li>
+<li>nio</li>
+<li>网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解</li>
+<li>通信框架Netty实战部署以及Netty服务讲解</li>
+<li>Netty的TCP粘包拆包、序列化以及自定义协议</li>
+<li>Netty实战数据通信以及集群心跳检测服务</li>
+</ul>
+<h4 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h4><p>系统之间通过网络传输，或者存储到文件时，肯定只有一种格式，就是字符串。要将复杂的数据结构与字符串之间进行转换，就需要用到序列化。</p>
+<ul>
+<li>JSON和XML，JSON和XML只能用于传递数据</li>
+<li>protobuf、thrift， protobuf与thrift还可以用来做RPC协议</li>
+</ul>
+<h4 id="线程、锁基础知识"><a href="#线程、锁基础知识" class="headerlink" title="线程、锁基础知识"></a>线程、锁基础知识</h4><ul>
+<li>java多线程同步异步</li>
+<li>池技术，对象池，连接池，线程池</li>
+<li>深入剖析volatile、AQS、synchronized、Lock、AtomicX关键字</li>
+<li>深入剖析java concurrent 包 阻塞队列、ConcurrentMap</li>
+<li>深入剖析java concurrent包 闭锁、栅栏、交换机、信号量</li>
+<li>深入剖析java concurrent 包 执行器服务、线程池、Jvm调优</li>
+</ul>
+<h4 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h4><ul>
+<li>jvm虚拟机原理、调优</li>
+<li>“直接内存”的特点</li>
+<li>java反射技术，java字节码技术;</li>
+</ul>
+<h4 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h4><ul>
+<li>熟悉http协议，尤其是http头，session和cookie的生命周期以及它们之间的关联。</li>
+<li>熟悉tcp协议，创建连接三次握手和断开连接四次握手的整个过程</li>
+<li>RPC方式</li>
+<li>RESTFul， 对性能等参数有个量化的了解</li>
+<li>安全设计 比如MySQL和PostgreSQL的协议都有安全的设计。</li>
+<li>加密/签名技术：常见如truecrypt、openssl、gnu pg、sha1、md5、scrypt等，了解各种加密/签名技术的安全性，字长等，</li>
+<li>OAuth：与其他网站联合认证的方式，有多种，分别了解。</li>
+<li>用户认证：一开始就应该花大精力设计好用户认证系统，包括不要明文存储密码，包括严格限制Cookie和Session的使用，包括用户认证信息的缓存等。如果需要设计一个长期运行的大系统，强烈建议使用签名来保证Cookie的不可伪造，同时常见信息直接存储Cookie，这样可以避免每次Request都访问数据库。</li>
+</ul>
+<h2 id="Web开发"><a href="#Web开发" class="headerlink" title="Web开发"></a>Web开发</h2><h3 id="HTTP、Servlet"><a href="#HTTP、Servlet" class="headerlink" title="HTTP、Servlet"></a>HTTP、Servlet</h3><ul>
+<li>HTTP协议，Servlet模型组件</li>
+<li>Servlet编程模型，多线程，线程池，ThreadLocal</li>
+<li>Stateless设计</li>
+</ul>
+<h3 id="API设计"><a href="#API设计" class="headerlink" title="API设计"></a>API设计</h3><p>设计Restfull API</p>
+<h3 id="序列化-JSON"><a href="#序列化-JSON" class="headerlink" title="序列化/JSON"></a>序列化/JSON</h3><p>序列化原理以及定制序列化</p>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><h3 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h3><h4 id="Spring-Framework"><a href="#Spring-Framework" class="headerlink" title="Spring Framework"></a>Spring Framework</h4><ul>
+<li>IOC原理</li>
+<li>单例/原型模式，工厂模式</li>
+<li>AOP、装饰器模式</li>
+<li>其他常用模式，适配器、观察者、策略，模板方法</li>
+<li>Spring JDBC. 声明式事物/事物嵌套原理</li>
+</ul>
+<h3 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h3><p>Spring Boot + Spring MVC</p>
+<h2 id="分布式架构设计"><a href="#分布式架构设计" class="headerlink" title="分布式架构设计"></a>分布式架构设计</h2><h3 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h3><p>微服务原理，分布式服务治理，服务注册与发现</p>
+<h3 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h3><p>配置中心原理/优点/配置变更</p>
+<h3 id="网管设计"><a href="#网管设计" class="headerlink" title="网管设计"></a>网管设计</h3><p>网关模式/原理</p>
+<h3 id="声明式服务调用"><a href="#声明式服务调用" class="headerlink" title="声明式服务调用"></a>声明式服务调用</h3><p>Feign+Hystrix+客户端路由+服务降级</p>
+<h3 id="异步驱动设计，消息服务-JMS-RocketMQ-Kafka"><a href="#异步驱动设计，消息服务-JMS-RocketMQ-Kafka" class="headerlink" title="异步驱动设计，消息服务: JMS, RocketMQ, Kafka"></a>异步驱动设计，消息服务: JMS, RocketMQ, Kafka</h3><p>异步处理、缓解服务器压力，解藕系统</p>
+<ul>
+<li>消息系统概念，模型，Queue, Topic</li>
+<li>JMS</li>
+<li>RocketMQ</li>
+<li>Kafka</li>
+</ul>
+<h3 id="消息幂等性设计"><a href="#消息幂等性设计" class="headerlink" title="消息幂等性设计"></a>消息幂等性设计</h3><p>幂等性原理，实现方式，重试机制，</p>
+<h3 id="分布式架构JVM监控与JMX"><a href="#分布式架构JVM监控与JMX" class="headerlink" title="分布式架构JVM监控与JMX"></a>分布式架构JVM监控与JMX</h3><p>Spring集成JMX,实现MBean，使用JConsole</p>
+<h3 id="流量控制设计"><a href="#流量控制设计" class="headerlink" title="流量控制设计"></a>流量控制设计</h3><p>限流设计/熔断设计/服务降级/Nginx反向代理+limit限速</p>
+<h3 id="边缘计算模式"><a href="#边缘计算模式" class="headerlink" title="边缘计算模式"></a>边缘计算模式</h3><p>什么是边缘计算，使用它实现秒杀业务</p>
+<h3 id="消息中间件-RocketMQ-Kafka"><a href="#消息中间件-RocketMQ-Kafka" class="headerlink" title="消息中间件: RocketMQ, Kafka"></a>消息中间件: RocketMQ, Kafka</h3><p>异步处理、缓解服务器压力，解藕系统</p>
+<ul>
+<li>RocketMQ</li>
+<li>Kafka</li>
+</ul>
+<h3 id="搜索引擎相关技术知识-ElasticSearch-Logstash-Kibana"><a href="#搜索引擎相关技术知识-ElasticSearch-Logstash-Kibana" class="headerlink" title="搜索引擎相关技术知识: ElasticSearch, Logstash, Kibana"></a>搜索引擎相关技术知识: ElasticSearch, Logstash, Kibana</h3><h3 id="高并发-高可用-微服务分布式互联网架构实战"><a href="#高并发-高可用-微服务分布式互联网架构实战" class="headerlink" title="高并发+高可用+微服务分布式互联网架构实战"></a>高并发+高可用+微服务分布式互联网架构实战</h3><ul>
+<li>Nginx</li>
+<li>Redis Transaction事务、pipeline以及优化和Sentinel高可用集群</li>
+<li>Nginx分离zuul+Redis实现token网关登录认证</li>
+<li>系统集群、负载均衡、反向代理、动静分离，网站静态化 。 </li>
+</ul>
+<h4 id="Spark-Storm分布式实时存储与流式计算"><a href="#Spark-Storm分布式实时存储与流式计算" class="headerlink" title="Spark Storm分布式实时存储与流式计算"></a>Spark Storm分布式实时存储与流式计算</h4><h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><h3 id="关系式数据库"><a href="#关系式数据库" class="headerlink" title="关系式数据库"></a>关系式数据库</h3><ul>
+<li>Create、Query、Delete、Update操作外。还需要能自行建立索引</li>
+<li>数据库的平行扩展</li>
+<li>如何进行性能调试。以及了解常见查询操作的性能级别，常见的查询性能瓶颈点</li>
+<li>mysql，对它基本的参数优化，慢查询日志分析，主从复制的配置</li>
+<li>配置Spring多数据源，通过Annotation+AOP实现一键切换</li>
+<li>MySql分页，以及常见调优原理</li>
+<li>分布式事务，补偿式设计</li>
+</ul>
+<h3 id="Hadoop-Hive-分布式大数据存储"><a href="#Hadoop-Hive-分布式大数据存储" class="headerlink" title="Hadoop Hive 分布式大数据存储"></a>Hadoop Hive 分布式大数据存储</h3><p>nfs, fastdfs, tfs, Hadoop 了解他们的优缺点，适用场景 。 </p>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><h3 id="分布式缓存技术memcached-redis"><a href="#分布式缓存技术memcached-redis" class="headerlink" title="分布式缓存技术memcached,redis"></a>分布式缓存技术memcached,redis</h3><p>把硬盘上的内容放到内存里来提速，算法一致性hash</p>
+<h2 id="机器学习、人工智能"><a href="#机器学习、人工智能" class="headerlink" title="机器学习、人工智能"></a>机器学习、人工智能</h2><h3 id="Python-1"><a href="#Python-1" class="headerlink" title="Python"></a>Python</h3><h3 id="TensorFlow"><a href="#TensorFlow" class="headerlink" title="TensorFlow"></a>TensorFlow</h3><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><p>如果一开始就将静态文件与主站内容混杂在一起，未来就是个灾难，具体参考CDN的应用方式</p>
+<h4 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h4><h4 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h4><h4 id="Tomcat-Jetty"><a href="#Tomcat-Jetty" class="headerlink" title="Tomcat, Jetty"></a>Tomcat, Jetty</h4><h3 id="源代码阅读"><a href="#源代码阅读" class="headerlink" title="源代码阅读"></a>源代码阅读</h3><p>zookeeper、spring cloud、redis、kafka、elasticsearch</p>
+<p>业务要求，性能要求，具备可扩展性（scalability），可拓展性（extendability），前后兼容性等</p>
+<ol>
+<li>博客/论坛：博客和论坛有很多，并且各个网站也都很常用，了解下其原理，最好自己写个练习下。</li>
+<li>微博：Twitter/weibo等，涉及到大量的联表查询，需要用多种办法来优化查询性能。</li>
+<li>云计算：云计算的几个常见平台的服务提供方式，如Google和Amazon的，如果精力够用最好了解下OpenStack等搭建私有云的方式，总的来说，这是未来的大方向。</li>
+<li>视频播放：在网页上播放视频的技术，包括基于Flash和HTML5的，各种浏览器对视频的兼容性等，了解通过ffmpeg将一个视频转换为标准mp4(HTML5可以播放的)的方式和参数</li>
+<li>CDN：了解应用CDN的方式，包括拆分静态文件的域名，静态文件版本化，Cookie拆分等相关技术</li>
+</ol>
+<h4 id="大型网站系统与Java中间件实践"><a href="#大型网站系统与Java中间件实践" class="headerlink" title="大型网站系统与Java中间件实践"></a>大型网站系统与Java中间件实践</h4><p>个人评价：这本书比上面两本要深一点，主要是关于一些中间件的设计。这里的并不是简单的教你怎么使用一些中间件，而是根据实际问题来演变怎么设计一个合适的中间件，适合有一定相关工作经验的人翻阅。可以买来看看，写的很不错<br>4</p>
+<h4 id="大型网站技术架构核心原理与案例分析"><a href="#大型网站技术架构核心原理与案例分析" class="headerlink" title="大型网站技术架构核心原理与案例分析"></a>大型网站技术架构核心原理与案例分析</h4><p>个人评价：如果要学习分布式，这本书基本把分布式的知识讲了个边（概论），书本篇幅不大，但是内容特别精炼，比如网站架构演变，高可用，高性能，伸缩性等等。此书的作者和下面所要陈述的两本书的作者也都是阿里系的。个人觉得学习分布式或者说大型网站架构可以先看看这本书来个全局统筹，然后再看《大型分布式网站架构设计与实践》，最后又实践经验了再看《大型网站系统与Java中间件实践》。</p>
+<p>评分：5分</p>
+<h4 id="深入理解Java虚拟机"><a href="#深入理解Java虚拟机" class="headerlink" title="深入理解Java虚拟机"></a>深入理解Java虚拟机</h4><p>个人评价：此书也甚为经典，博主看了不下5遍。此书的作者是国内的，在市场上面滥竽充数横行的今天，算得上是上上品。书中对JVM进行了详细深刻的说明，是学习JVM原理必备书籍。必须强烈推荐。</p>
+<p>评分：5分</p>
+<h4 id="Java并发编程的艺术"><a href="#Java并发编程的艺术" class="headerlink" title="Java并发编程的艺术"></a>Java并发编程的艺术</h4><p>个人评价：此书是阿里人也的书，一共有三个作者，第一作者是方腾飞，也是并发编程网的创始人，如果在网上搜索并发编程的相关知识，或多或少的会链接到他的网站上去。此书开篇就很有深度，比如偏向锁、自旋锁、轻量级锁等。前面6章都很不错，理解的非常深入，很底层，后面开始有点撑版面的，尤其是Atomic这一章出现了严重的错误，有点凤头鸡尾的感觉。但是总体上来看还是很不错的，非常推荐买来看看。</p>
+<p>评分：4分</p>
+<h4 id="Java并发编程实战"><a href="#Java并发编程实战" class="headerlink" title="Java并发编程实战"></a>Java并发编程实战</h4><p>个人评价：国外人写的书，这是翻译版，原书《Java Concurrency in Practice》,堪称并发中的经典书籍。翻译的也很好，书本内容偏理论，基本知识点都能够概括。当然这本书还是需要有一点的并发基础的人适合看的，零基础的看起来会有点吃力。此书可以看好多遍，没看一遍都会有新的认识。</p>
+<p>评分：5分。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/Tech图谱/" data-id="cjw28ehlo0001g8tmsc9hpp8b" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "Tech图谱",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/Tech图谱/",
+        "description": "[TOC]
+软件开发语言PythonJava集合对象
+java各种集合对象的实现原理
+熟练使用各种数据结构和算法，数组、哈希、链表、排序树, 要么是时间换空间要么是空间换时间
+
+NIO + Netty高并发编程
+io
+nio
+网络编程的BIO、伪异步IO模式、NIO、AIO编程模型讲解
+通信框架Netty实战部署以及Netty服务讲解
+Netty的TCP粘包拆包、序列化以及自定义协议
+Netty实"
+        "wordCount": 267
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/金融/投资/FinancialWord/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            (no title)
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/algorism/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">algorism</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/Tech图谱/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

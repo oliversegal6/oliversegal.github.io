@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Lucence | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="[TOC] 一、环境需要导入lucene.jar包（在lucene.apache.org下载） 二、基本概念1．Lucene的工作流程： 使用IndexWriter，在指定的目录建立索引的文件 将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中 处理索引信息，关闭IndexWriter流 创建搜索的Query 给IndexSea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lucence">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/搜索引擎/Lucence/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="[TOC] 一、环境需要导入lucene.jar包（在lucene.apache.org下载） 二、基本概念1．Lucene的工作流程： 使用IndexWriter，在指定的目录建立索引的文件 将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中 处理索引信息，关闭IndexWriter流 创建搜索的Query 给IndexSea">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:15:00.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lucence">
+<meta name="twitter:description" content="[TOC] 一、环境需要导入lucene.jar包（在lucene.apache.org下载） 二、基本概念1．Lucene的工作流程： 使用IndexWriter，在指定的目录建立索引的文件 将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中 处理索引信息，关闭IndexWriter流 创建搜索的Query 给IndexSea">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/搜索引擎/Lucence" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Lucence
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/搜索引擎/Lucence/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>[TOC]</p>
+<h2 id="一、环境"><a href="#一、环境" class="headerlink" title="一、环境"></a>一、环境</h2><p>需要导入lucene.jar包（在lucene.apache.org下载）</p>
+<h2 id="二、基本概念"><a href="#二、基本概念" class="headerlink" title="二、基本概念"></a>二、基本概念</h2><h3 id="1．Lucene的工作流程："><a href="#1．Lucene的工作流程：" class="headerlink" title="1．Lucene的工作流程："></a>1．Lucene的工作流程：</h3><ol>
+<li>使用IndexWriter，在指定的目录建立索引的文件</li>
+<li>将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中</li>
+<li>处理索引信息，关闭IndexWriter流</li>
+<li>创建搜索的Query</li>
+<li>给IndexSearcher</li>
+</ol>
+<h3 id="2．Lucene的字段类型"><a href="#2．Lucene的字段类型" class="headerlink" title="2．Lucene的字段类型"></a>2．Lucene的字段类型</h3><p>Lucene有四种不同的字段类型：Keyword，UnIndexed，UnStored和Text，用于指定建立最佳索引。</p>
+<ul>
+<li>Keyword字段是指不需要分析器解析但需要被编入索引并保存到索引中的部分。JavaSourceCodeIndexer类使用该字段来保存导入类的声明。</li>
+<li>UnIndexed字段是既不被分析也不被索引，但是要被逐字逐句的将其值保存到索引中。由于我们一般要存储文件的位置但又很少用文件名作为关键字来搜索，所以用该字段来索引Java文件名。</li>
+<li>UnStored字段和UnIndexed字段相反。该类型的Field要被分析并编入索引，但其值不会被保存到索引中。由于存储方法的全部源代码需要大量的空间。所以用UnStored字段来存储被索引的方法源代码。可以直接从Java源文件中取出方法的源代码，这样作可以控制我们的索引的大小。</li>
+<li>Text字段在索引过程中是要被分析、索引并保存的。类名是作为Text字段来保存。下表展示了JavaSourceCodeIndexer类使用Field字段的一般情况。</li>
+</ul>
+<h3 id="3．基本概念（与传统表的对比）："><a href="#3．基本概念（与传统表的对比）：" class="headerlink" title="3．基本概念（与传统表的对比）："></a>3．基本概念（与传统表的对比）：</h3><p>Lucene    传统表    说明<br>IndexWriter    table<br>Document    一条记录<br>Field    每个字段    分为可被索引的，可切分的，不可被切分的，不可被索引的几种组合类型<br>Hits    RecoreSet    结果集</p>
+<p>IndexWriter提供了一些参数可供设置，列表如下<br>     属性    默认值    说明<br>mergeFactor    org.apache.lucene.mergeFactor    10    控制index的大小和频率,两个作用</p>
+<ol>
+<li>一个段有多少document</li>
+<li>多少个段合成一个大段 </li>
+</ol>
+<ul>
+<li>maxMergeDocs    org.apache.lucene.maxMergeDocs    Integer.MAX_VALUE    限制一个段中的document数目</li>
+<li>minMergeDocs    org.apache.lucene.minMergeDocs    10    缓存在内存中的document数目，超过他以后会写入到磁盘</li>
+<li>maxFieldLength         1000    一个Field中最大Term数目，超过部分忽略，不会index到field中，所以自然也就搜索不到</li>
+</ul>
+<p>这些参数的的详细说明比较复杂：mergeFactor有双重作用</p>
+<ol>
+<li>设置每mergeFactor个document写入一个段，比如每10个document写入一个段</li>
+<li>设置每mergeFacotr个小段合并到一个大段，比如10个document的时候合并为1小段，以后有10个小段以后合并到一个大段，有10个大段以后再合并，实际的document数目会是mergeFactor的指数</li>
+</ol>
+<p>简单的来说mergeFactor 越大，系统会用更多的内存，更少磁盘处理，如果要打批量的作index，那么把mergeFactor设置大没错， mergeFactor 小了以后， index数目也会增多，searhing的效率会降低，但是mergeFactor增大一点一点，内存消耗会增大很多(指数关系),所以要留意不要”out of memory”<br>把maxMergeDocs设置小，可以强制让达到一定数量的document写为一个段，这样可以抵消部分mergeFactor的作用.<br>minMergeDocs相当于设置一个小的cache,第一个这个数目的document会留在内存里面，不写入磁盘。这些参数同样是没有最佳值的，必须根据实际情况一点点调整。<br>maxFieldLength可以在任何时刻设置，设置后，接下来的index的Field会按照新的length截取，之前已经index的部分不会改变。可以设置为Integer.MAX_VALUE</p>
+<h3 id="4．几种查询方式"><a href="#4．几种查询方式" class="headerlink" title="4．几种查询方式"></a>4．几种查询方式</h3><p>查询方式    说明<br>TermQuery    条件查询<br>例如：<code>TermQuery tquery=new TermQuery(new Term(&quot;name&quot;,&quot;jerry&quot;));</code><br>name:字段名<br>jerry:要搜索的字符串<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MultiTermQuery	多个字段进行同一关键字的查询</span><br><span class="line">Query query= <span class="keyword">null</span>;</span><br><span class="line">Query =MultiFieldQueryParser.parse(<span class="string">"我"</span>,<span class="keyword">new</span> String[] &#123;<span class="string">"title"</span>,<span class="string">"content"</span>&#125;,analyzer);</span><br><span class="line">Searcher searcher=<span class="keyword">new</span> IndexSearcher(indexFilePath);</span><br><span class="line"> Hits hits=searcher.search(query);</span><br><span class="line">BooleanQuery	例如：BooleanQuery bquery=<span class="keyword">new</span> BooleanQuery();</span><br><span class="line"> bquery.add(query,<span class="keyword">true</span>,<span class="keyword">false</span>);</span><br><span class="line">   bquery.add(mquery,<span class="keyword">true</span>,<span class="keyword">false</span>);</span><br><span class="line">   bquery.add(tquery,<span class="keyword">true</span>,<span class="keyword">false</span>);</span><br><span class="line">   Searcher searcher=<span class="keyword">new</span> IndexSearcher(indexFilePath);</span><br></pre></td></tr></table></figure></p>
+<pre><code>Hits hits=searcher.search(bquery);
+</code></pre><p>WildcardQuery    语义查询（通配符查询）<br>例：<code>Query query= new WildcardQuery(new Term(&quot;sender&quot;,&quot;*davy*&quot;));</code></p>
+<ul>
+<li>PhraseQuery    短语查询</li>
+<li>PrefixQuery    前缀查询</li>
+<li>PhrasePrefixQuery    短语前缀查询</li>
+<li>FuzzyQuery    模糊查询</li>
+<li>RangeQuery    范围查询</li>
+<li>SpanQuery    范围查询<br>在全文检索时建议大家先采用语义时的搜索，先搜索出有意义的内容，之后再进行模糊之类的搜索</li>
+</ul>
+<p>(1)联合两个索引查询，已解决：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IndexSearcher[] searchers = <span class="keyword">new</span> IndexSearcher[<span class="number">2</span>];  </span><br><span class="line">   </span><br><span class="line">searchers[<span class="number">0</span>] = <span class="keyword">new</span> IndexSearcher(m_indexpath); </span><br><span class="line">searchers[<span class="number">1</span>] = <span class="keyword">new</span> IndexSearcher(m_outindexpath); </span><br><span class="line"></span><br><span class="line">MultiSearcher multiSearcher = <span class="keyword">new</span> MultiSearcher(searchers);</span><br></pre></td></tr></table></figure></p>
+<p>(2)还有个进行多条件搜索 and 与 or 的操作————<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">用 MultiFieldQueryParser </span><br><span class="line">建议重新封装 </span><br><span class="line">MultiFieldQueryParser.Parser(p[],d[],f[],analyer)  成or 与 and操作合一 </span><br><span class="line">或者 </span><br><span class="line">BooleanQuery m_BooleanQuery = <span class="keyword">new</span> BooleanQuery(); </span><br><span class="line">Query query = QueryParser.Parse(m_SearchText, <span class="string">"INSTRUMENT_NAME"</span>, analyzer); </span><br><span class="line">Query query2 = QueryParser.Parse(m_SearchText2, <span class="string">"INSTRUMENT_NAME2"</span>, analyzer); </span><br><span class="line">m_BooleanQuery.Add(query, <span class="keyword">true</span>, <span class="keyword">false</span>); </span><br><span class="line">m_BooleanQuery.Add(query2, <span class="keyword">true</span>, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure></p>
+<p>(3)复合查询（多种查询条件的综合查询）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Query query=MultiFieldQueryParser.parse(<span class="string">"索引”,new String[] &#123;"</span>title<span class="string">","</span>content<span class="string">"&#125;,analyzer);</span></span><br><span class="line"><span class="string">Searcher searcher=new IndexSearcher(indexFilePath);</span></span><br><span class="line"><span class="string">Hits hits=searcher.search(query);</span></span><br><span class="line"><span class="string">for (int i = 0; i &lt; hits.length(); i++)  &#123;</span></span><br><span class="line"><span class="string">            System.out.println(hits.doc(i).get("</span>name<span class="string">"));</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="5-为查询优化索引-index"><a href="#5-为查询优化索引-index" class="headerlink" title="5. 为查询优化索引(index)"></a>5. 为查询优化索引(index)</h3><p>Indexwriter.optimize()方法可以为查询优化索引（index），之前提到的参数调优是为indexing过程本身优化，而这里是为查询优化，优化主要是减少index文件数，这样让查询的时候少打开文件，优化过程中，lucene会拷贝旧的index再合并，合并完成以后删除旧的index，所以在此期间，磁盘占用增加， IO符合也会增加，在优化完成瞬间，磁盘占用会是优化前的2倍,在optimize过程中可以同时作search。</p>
+<p>org.apache.lucene.document.Field<br>        即上文所说的“字段”，它是Document的片段section。<br>        Field的构造函数：<br>       Field(String name, String string, boolean store, boolean index, boolean token)。<br>        Indexed：如果字段是Indexed的，表示这个字段是可检索的。<br>        Stored：如果字段是Stored的，表示这个字段的值可以从检索结果中得到。<br>        Tokenized：如果一个字段是Tokenized的，表示它是有经过Analyzer转变后成为一个tokens序列，在这个转变过程tokenization中， Analyzer提取出需要进行索引的文本，而剔除一些冗余的词句（例如：a，the,they等，详见 org.apache.lucene.analysis.StopAnalyzer.ENGLISH_STOP_WORDS和 org.apache.lucene.analysis.standard.StandardAnalyzer(String[] stopWords)的API）。Token是索引时候的.</p>
+<p>类型    Analyzed    Indexed    Stored    说明<br>Field.Keyword(String,String/Date)    N    Y    Y    这个Field用来储存会直接用来检索的比如(编号,姓名,日期等)<br>Field.UnIndexed(String,String)    N    N    Y    不会用来检索的信息,但是检索后需要显示的,比如,硬件序列号,文档的url地址<br>Field.UnStored(String,String)    Y    Y    N    大段文本内容,会用来检索,但是检索后不需要从index中取内容,可以根据url去load真实的内容<br>Field.Text(String,String)    Y    Y    Y    检索,获取都需要的内容,直接放index中,不过这样会增大index<br>Field.Text(String,Reader)    Y    Y    N    如果是一个Reader, lucene猜测内容比较多,会采用Unstored的策略.</p>
+<p>Lucene 的检索结果排序<br>        Lucene的排序主要是对org.apache.lucene.search.Sort的使用。Sort可以直接根据字段Field生成，也可以根据标准的SortField生成，但是作为Sort的字段，必须符合以下的条件：唯一值以及Indexed。可以对Integers, Floats, Strings三种类型排序。<br>        对整数型的ID检索结果排序只要进行以下的简单操作：<br>Sort sort = new Sort(“id”);<br> Hits hits = searcher.search(query, sort);<br>用户还可以根据自己定义更加复杂的排序，详细请参考API。</p>
+<h3 id="6．分析器"><a href="#6．分析器" class="headerlink" title="6．分析器"></a>6．分析器</h3><p>Lucene使用分析器来处理被索引的文本。在将其存入索引之前，分析器用于将文本标记化、摘录有关的单词、丢弃共有的单词、处理派生词（把派生词还原到词根形式，意思是把bowling、bowler和bowls还原为bowl）和完成其它要做的处理。Lucene提供的通用分析器是：<br>        SimpleAnalyzer：用字符串标记一组单词并且转化为小写字母。<br>        StandardAnalyzer：用字符串标记一组单词，可识别缩写词、email地址、主机名称等等。并丢弃基于英语的stop words (a, an, the, to)等、处理派生词。<br>   ChineseAnalyzer.class，它是一个单字分析法，它把句子中的词全部分成一个一个的字符，以单个字为单位存储。<br>CJKAnalyzer.class，它是双字分析法，它把中文以双字为单位拆分得到结果，从而建立词条。当然这些得到的双字词中会有很多不符合中文语义单位的双字被送进索引。</p>
+<p>十、需要注意的问题：</p>
+<ol>
+<li>IndexWriter在添加新的document后，需要重新建立Index，则需要调用writer.optimize();方法</li>
+<li>Lucene没有update索引的方法，需要删除后重新建立，参考remove方法</li>
+<li>用IndexReader删除Document后，需要重新用IndexWriter进行整理，否则无法在进行搜索（不知道是不是我设置问题）</li>
+<li>Lucene先在内存中进行索引操作，并根据一定的批量进行文件的写入。这个批次的间隔越大，文件的写入次数越少，但占用内存会很多。反之占用内存少，但文件IO操作频繁，索引速度会很慢。在IndexWriter中有一个MERGE_FACTOR参数可以帮助你在构造索引器后根据应用环境的情况充分利用内存减少文件的操作。根据我的使用经验：缺省Indexer是每20条记录索引后写入一次，每将MERGE_FACTOR增加50倍，索引速度可以提高1倍左右。</li>
+<li>并发操作Lucene<br>(1)所有只读操作都可以并发<br>(2)在index被修改期间，所有只读操作都可以并发<br>(3)对index修改操作不能并发，一个index只能被一个线程占用<br>(4)ndex的优化，合并，添加都是修改操作<br>(5)但需要注意的是,在创建搜索的时候用:<br>searcher = new IndexSearcher(IndexReader.open(“E:\lucene\test4\index”));<br>searcher.close();<br>这时候是不能关闭searcher的.<br>如果想让searcher能关闭,就不要用IndexReader了:<br>searcher = new IndexSearcher(“E:\lucene\test4\index”); </li>
+<li>Locking机制<br>lucence内部使用文件来locking，默认的locking文件放在java.io.tmpdir,可以通过-Dorg.apache.lucene.lockDir=xxx指定新的dir，有write.lock commit.lock两个文件，lock文件用来防止并行操作index，如果并行操作， lucene会抛出异常，可以通过设置-DdisableLuceneLocks=true来禁止locking，这样做一般来说很危险，除非你有操作系统或者物理级别的只读保证，比如把index文件刻盘到CDROM上。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">实例：</span><br><span class="line"><span class="number">1</span>.判断索引文件是否存在:</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 检查索引是否存在.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> indexDir</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">indexExist</span><span class="params">(String indexDir)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> IndexReader.indexExists(indexDir);</span><br><span class="line">    &#125;</span><br><span class="line"> <span class="function"><span class="keyword">private</span> IndexWriter <span class="title">getWriter</span><span class="params">(String indexFilePath)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> append=<span class="keyword">true</span>;</span><br><span class="line">        File file=<span class="keyword">new</span> File(indexFilePath+File.separator+<span class="string">"segments"</span>);</span><br><span class="line">        <span class="keyword">if</span>(file.exists())</span><br><span class="line">            append=<span class="keyword">false</span>; </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IndexWriter(indexFilePath,analyzer,append);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"><span class="number">2</span>.删除索引</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除索引.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> aTerm 索引删除条件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> indexDir 索引目录</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteIndex</span><span class="params">(Term aTerm, String indexDir)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        List aList = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        aList.add(aTerm);</span><br><span class="line">        deleteIndex(aList, indexDir);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除索引. </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> aTerm 索引删除条件.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> indexDir 索引目录     *  </span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteIndex</span><span class="params">(List terms, String indexDir)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == terms) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(!indexExist(indexDir)) &#123; <span class="keyword">return</span>; &#125;</span><br><span class="line">        IndexReader reader = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            reader = IndexReader.open(indexDir);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; terms.size(); i++)&#123;</span><br><span class="line">                Term aTerm = (Term) terms.get(i);</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != aTerm)&#123;</span><br><span class="line">                    reader.delete(aTerm);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            LogMan.warn(<span class="string">"Error in Delete Index"</span>, e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != reader)&#123;</span><br><span class="line">                    reader.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">                LogMan.warn(<span class="string">"Close reader Error"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line"> 删除索引需要一个条件,类似数据库中的字段条件,例如删除一条新闻的代码如下:</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteNewsInfoIndex</span><span class="params">(<span class="keyword">int</span> nid)</span></span></span><br><span class="line"><span class="function">     </span>&#123;</span><br><span class="line">         Term aTerm = <span class="keyword">new</span> Term(<span class="string">"nid"</span>, String.valueOf(nid));</span><br><span class="line">         deleteIndex(aTerm,indexDir);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+<p>Lucene几个重要部分：<br>1、分词<br>2、索引<br>3、搜索</p>
+<p>分词方式对数据搜索的性能影响特别大，在基于数据库的查询时对单字段可做二元，四元等分词，这样主要是为了减少clause数量，它是索引和搜索的关键。<br>索引的问题就是新建和更新，批量新建时可以用RAMDirectory先写，最后再并入FSDirectory中去，可以加快速度，更新时要先删除一个再新增一个。<br>    搜索有Query子类声明和QueryParser转换两种方式，最终都会变为BooleanQuery来进行搜索。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/搜索引擎/Lucence/" data-id="cjw28eify002cg8tmut4q0uik" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "Lucence",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发 系统架构 搜索引擎",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/搜索引擎/Lucence/",
+        "description": "[TOC]
+一、环境需要导入lucene.jar包（在lucene.apache.org下载）
+二、基本概念1．Lucene的工作流程：
+使用IndexWriter，在指定的目录建立索引的文件
+将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中
+处理索引信息，关闭IndexWriter流
+创建搜索的Query
+给IndexSea"
+        "wordCount": 962
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/软件开发/系统架构/分布式架构/高性能架构/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            高性能架构
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Redis</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/搜索引擎/Lucence/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

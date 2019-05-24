@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Docker | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="设计模式学习笔记 from : http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html  设计模式的分类12345五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/DesignPattern/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="设计模式学习笔记 from : http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html  设计模式的分类12345五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:16:13.145Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker">
+<meta name="twitter:description" content="设计模式学习笔记 from : http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html  设计模式的分类12345五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/DesignPattern" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Docker
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/DesignPattern/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h3 id="设计模式学习笔记"><a href="#设计模式学习笔记" class="headerlink" title="设计模式学习笔记"></a>设计模式学习笔记</h3><ul>
+<li>from : <a href="http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html" target="_blank" rel="noopener">http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html</a></li>
+</ul>
+<h4 id="设计模式的分类"><a href="#设计模式的分类" class="headerlink" title="设计模式的分类"></a>设计模式的分类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式</span><br><span class="line">七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式</span><br><span class="line">十一种行为模式 ： 策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式</span><br><span class="line">并发型模式 ： Future模式,Master_worker模式,Guarded Suspension模式,不变模式,生产者消费者模式　</span><br><span class="line">线程池模式 : HS/HA半同步/半异步模式，L/F领导者跟随者模式</span><br></pre></td></tr></table></figure>
+<h4 id="设计模式六大原则"><a href="#设计模式六大原则" class="headerlink" title="设计模式六大原则"></a>设计模式六大原则</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">开闭原则 ： 对扩展开放，修改关闭</span><br><span class="line">里氏代换原则 ： 任何基类出现的地方，子类一定可以出现</span><br><span class="line">依赖倒置原则 ： 依赖抽象，不依赖具体</span><br><span class="line">接口隔离原则 ： 使用多个隔离的接口，而不是单个接口包括所有方法</span><br><span class="line">迪米特法则 ： 实体尽量少和其他实体发生相互作用  </span><br><span class="line">合成复用原则 ： 尽量使用合成聚合而不是继承</span><br></pre></td></tr></table></figure>
+<h4 id="23种设计模式"><a href="#23种设计模式" class="headerlink" title="23种设计模式"></a>23种设计模式</h4><h5 id="五种创建者模式"><a href="#五种创建者模式" class="headerlink" title="五种创建者模式"></a>五种创建者模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 单例模式 ： JVM中只创建一个实例存在，反复使用,严格单例需要控制线程安全，反序列化创建对象</span><br><span class="line">2. 工厂方法模式</span><br><span class="line">    普通工厂模式 ： 建立一个工厂类，对实现同一接口的类进行实例创建，多个实例共用一个工厂方法</span><br><span class="line">    多个工厂方法模式 ： 对普通工厂改进，每一类实例的创建对应一个工厂方法</span><br><span class="line">    静态工厂方法模式 ： 对多个工厂方法模式改进，将方法设置为静态的，不再需要创建工厂实例</span><br><span class="line">3. 抽象工厂模式 ： 抽象工厂模式，创建多个工厂类，这样一旦需要增加新的功能，只需增加新的工厂类，不需要修改原有代码</span><br><span class="line">4. 建造者模式 ： 建造者是创建复合对象，工厂模式创建单个产品</span><br><span class="line">5. 原型模式 ： 对一个已有对象的复制产生一个和原对象类似的新对象，通过clone</span><br><span class="line">    浅复制 ： 基本数据类型的变量会被重新创建，引用类型还是指向原对象 (Object.clone就是浅拷贝)</span><br><span class="line">    深复制 ： 基本数据类型和引用类型被重新创建 (写入读出二进制流产生新对象)</span><br></pre></td></tr></table></figure>
+<h5 id="七种结构型模式"><a href="#七种结构型模式" class="headerlink" title="七种结构型模式"></a>七种结构型模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 适配器模式</span><br><span class="line">    类的适配器模式 ： 接口Targetable拥有和A相同的方法，并有新的适配方法，类Adapter继承A实现Targetable</span><br><span class="line">    对象的适配器模式 ： 和类适配器不同的是，持有A的实例而不是继承A</span><br><span class="line">    接口的适配器模式 ： 解决有时候并不想实现接口中的所有的方法，让抽象类B实现接口C，其他的实现类只需要继承B</span><br><span class="line">2. 装饰器模式 ： 给一个对象动态增加新的功能，装饰对象B实现被装饰对象A相同的接口，并且B持有A的实例，用户更关注被装饰后的功能</span><br><span class="line">3. 代理模式 ： 类Proxy实现被代理的类A相同的接口，并持有A的实例，实现类似装饰器模式，但用户更关注被代理的对象功能 (可参考JDK proxy)</span><br><span class="line">4. 外观模式 ： 解决类与类之间的依赖关系，将其他的类组合在一起</span><br><span class="line">5. 桥接模式 ： 把事物和具体实现分开，使得二者可以独立变化 (参考JDBC的不同数据库驱动加载)</span><br><span class="line">6. 组合模式 ： 多个对象组合在一起进行操作,整体和个体的设计(参考二叉树，目录)</span><br><span class="line">7. 享元模式 ： 实现对象的共享(参考数据库连接池的实现，commons-pool开源实现)</span><br></pre></td></tr></table></figure>
+<h5 id="十一种行为模式"><a href="#十一种行为模式" class="headerlink" title="十一种行为模式"></a>十一种行为模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1. 父类和子类</span><br><span class="line">    策略模式 : 多个子类实现同一个接口，用户按自己的选择选用不同的实现，如排序接口，具体实现快排，堆排等</span><br><span class="line">    模板方法模式 ： 抽象类定义主方法，子类继承抽象类，选择实现父类的方法，通过调用父类实现对子类的调用</span><br><span class="line">2. 两个类之间</span><br><span class="line">    观察者模式 : 观察者先订阅，被观察者变化时通知列表内的观察者</span><br><span class="line">    迭代子模式 : 用于遍历聚集中的对象，如集合,Iterator持有遍历对象实例，对其进行顺序访问</span><br><span class="line">    责任链模式 : 一个实例对象调用自己的实例去处理一个任务，然后递归，始终会有一个对象去处理这个任务，这个查找链不限于链表和树等</span><br><span class="line">    命令模式 ： 实现和请求分开，如controller和service层的分离</span><br><span class="line">3. 类的状态</span><br><span class="line">    备忘录模式 : 原始类A创建备忘类B保存在C中，B保存A的属性，C只能新增不能修改</span><br><span class="line">    状态模式 ： 类A有不同状态Status，不同的状态同一方法对应不同的行为</span><br><span class="line">4. 通过中间类</span><br><span class="line">    访问者模式 ： 分离对象数据结构和行为的方法，解决为现有类A新增功能，不能修改A的代码的情况,缺点是不适用数据结构易于变化的场景</span><br><span class="line">    中介者模式 ： 为降低类的耦合性，只需保持其它类和中间类的关系，不需要类之间相互持有实例对象</span><br><span class="line">    解释器模式 ： 类似编译器，正则表达式实现，使用场景受限</span><br></pre></td></tr></table></figure>
+<h5 id="并发型模式"><a href="#并发型模式" class="headerlink" title="并发型模式"></a>并发型模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 主动对象模式 Active Object : 自带处理线程，其他请求进入缓冲区等待异步执行，调用和执行分离</span><br><span class="line">2. 阻碍模式 Balking Pattern : 设置一个共享变量，当线程进入一个方法，判断该值是否为真，如果为真说明已经在执行了，返回结束，否则设为真并执行</span><br><span class="line">3. 双重检查锁定 Double Checked Locking ：　参考单例模式实例的初始化双检查</span><br><span class="line">4. 守卫模式 Guarded　：　判断共享变量是否为真，当为假wait,等待条件为真时notify</span><br><span class="line">5. 领导者/追随者模式 Leaders/Followers : 每个线程共享一个事件源，并在三个状态切换leader、follower和processor;leader接受事件，状态变成processor，选举一个新的leader，事件处理完状态变成follower；不需要线程的上下文切换</span><br><span class="line">6. 监测对象模式 Monitor object : 互斥执行和协作。使用ｓｙｎｃｈｒｏｎｉｚｅｄ和wait/notify/notifyAll</span><br><span class="line">7. 读写锁 Read-write lock　：　读写锁分离，增加吞吐量    </span><br><span class="line">8. 调度模式 Scheduler ： 定期处理(Timer)</span><br><span class="line">9. 线程池模式    Thread pool ： 线程被当作资源管理分配</span><br><span class="line">10. 线程特定存储 Thread-specific storage : 将变量保存在ＴｈｒｅａｄLocal中，避免重复创建或从其他地方获取</span><br></pre></td></tr></table></figure>
+<h5 id="Java-3种并发实现"><a href="#Java-3种并发实现" class="headerlink" title="Java 3种并发实现"></a>Java 3种并发实现</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. Thread : 直接使用Thread/Runnable/Future</span><br><span class="line">2. Executors和Services ： 线程池技术来控制应用程序的并发，线程数通常和业务相关于cpu不相关，需要上下文切换实现并发，任务从开始到结束时间是不稳定的，执行过程中需要抢占cpu</span><br><span class="line">3. ForkJoin框架和并行流 ： cpu数来控制并行，并发数量不会大于cpu的并发数</span><br></pre></td></tr></table></figure>
+<h5 id="Java并发策略"><a href="#Java并发策略" class="headerlink" title="Java并发策略"></a>Java并发策略</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. Future模式:　提高响应速度</span><br><span class="line">2. Master_worker模式: 子任务分配，提高响应速度　</span><br><span class="line">3. Guarded Suspension模式 : 队列缓冲，非立即处理，避免因为请求太多而崩溃</span><br><span class="line">4. 不变模式: 类似String/Double...不需要同步，线程安全</span><br><span class="line">5. 生产者消费者模式　:　缓解两者间的性能差</span><br></pre></td></tr></table></figure>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/DesignPattern/" data-id="cjw28ehzy000lg8tm4mkuofen" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "Docker",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发 系统架构",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/DesignPattern/",
+        "description": "设计模式学习笔记
+from : http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html
+
+设计模式的分类12345五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法"
+        "wordCount": 457
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/软件开发/服务器/nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            nginx
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/一致性/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">一致性</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/DesignPattern/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

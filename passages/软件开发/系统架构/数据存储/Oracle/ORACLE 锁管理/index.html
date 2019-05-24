@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>ORACLE 锁管理 | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="ORACLE锁的管理ORACLE里锁有以下几种模式:  0：none 1：null      空 2：Row-S     行共享(RS)：共享表锁   3：Row-X     行专用(RX)：用于行的修改 4：Share     共享锁(S)：阻止其他DML操作 5：S/Row-X   共享行专用(SRX)：阻止其他事务操作 6：exclusive 专用(X)：独立访问使用  数字越大锁级别越高,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORACLE 锁管理">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="ORACLE锁的管理ORACLE里锁有以下几种模式:  0：none 1：null      空 2：Row-S     行共享(RS)：共享表锁   3：Row-X     行专用(RX)：用于行的修改 4：Share     共享锁(S)：阻止其他DML操作 5：S/Row-X   共享行专用(SRX)：阻止其他事务操作 6：exclusive 专用(X)：独立访问使用  数字越大锁级别越高,">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-24T15:15:09.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ORACLE 锁管理">
+<meta name="twitter:description" content="ORACLE锁的管理ORACLE里锁有以下几种模式:  0：none 1：null      空 2：Row-S     行共享(RS)：共享表锁   3：Row-X     行专用(RX)：用于行的修改 4：Share     共享锁(S)：阻止其他DML操作 5：S/Row-X   共享行专用(SRX)：阻止其他事务操作 6：exclusive 专用(X)：独立访问使用  数字越大锁级别越高,">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        ORACLE 锁管理
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h2 id="ORACLE锁的管理"><a href="#ORACLE锁的管理" class="headerlink" title="ORACLE锁的管理"></a>ORACLE锁的管理</h2><p>ORACLE里锁有以下几种模式:</p>
+<ul>
+<li>0：none</li>
+<li>1：null      空</li>
+<li>2：Row-S     行共享(RS)：共享表锁  </li>
+<li>3：Row-X     行专用(RX)：用于行的修改</li>
+<li>4：Share     共享锁(S)：阻止其他DML操作</li>
+<li>5：S/Row-X   共享行专用(SRX)：阻止其他事务操作</li>
+<li>6：exclusive 专用(X)：独立访问使用</li>
+</ul>
+<p>数字越大锁级别越高, 影响的操作越多。</p>
+<h4 id="查询语句锁级别"><a href="#查询语句锁级别" class="headerlink" title="查询语句锁级别"></a>查询语句锁级别</h4><p>一般的查询语句如select … from … ;是小于2的锁, 有时会在v$locked_object出现。<br>select … from … for update;      是2的锁。</p>
+<p>当对话使用for update子串打开一个游标时，<br>所有返回集中的数据行都将处于行级(Row-X)独占式锁定，<br>其他对象只能查询这些数据行，不能进行update、delete或select…for update操作。</p>
+<h4 id="修改语句锁级别"><a href="#修改语句锁级别" class="headerlink" title="修改语句锁级别"></a>修改语句锁级别</h4><p>insert / update / delete … ;         是3的锁。    </p>
+<p>没有commit之前插入同样的一条记录会没有反应,<br>因为后一个3的锁会一直等待上一个3的锁, 我们必须释放掉上一个才能继续工作。</p>
+<p>locked_mode为2,3,4不影响DML(insert,delete,update,select)操作,<br>但DDL(alter,drop等)操作会提示ora-00054错误。</p>
+<p>有主外键约束时 update / delete … ; 可能会产生4,5的锁。</p>
+<h4 id="创建索引锁级别"><a href="#创建索引锁级别" class="headerlink" title="创建索引锁级别"></a>创建索引锁级别</h4><p>创建索引的时候也会产生3,4级别的锁。</p>
+<h4 id="DDL语句锁级别"><a href="#DDL语句锁级别" class="headerlink" title="DDL语句锁级别"></a>DDL语句锁级别</h4><p>DDL语句时是6的锁。</p>
+<p>以DBA角色, 查看当前数据库里锁的情况可以用如下SQL语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> object_id,session_id,locked_mode <span class="keyword">from</span> v$locked_object;</span><br><span class="line"><span class="keyword">select</span> t2.username,t2.sid,t2.serial<span class="comment">#,t2.logon_time </span></span><br><span class="line"><span class="keyword">from</span> v$locked_object t1,v$<span class="keyword">session</span> t2 </span><br><span class="line"><span class="keyword">where</span> t1.session_id=t2.sid <span class="keyword">order</span> <span class="keyword">by</span> t2.logon_time;</span><br></pre></td></tr></table></figure>
+<p>如果有长期出现的一列，可能是没有释放的锁。<br>我们可以用下面SQL语句杀掉长期没有释放非正常的锁：<br><code>alter system kill session &#39;sid,serial#&#39;;</code></p>
+<p>如果出现了锁的问题, 某个DML操作可能等待很久没有反应。</p>
+<p>当你采用的是直接连接数据库的方式，<br>也不要用OS系统命令 $kill process_num 或者 $kill -9 process_num来终止用户连接，<br>因为一个用户进程可能产生一个以上的锁, 杀OS进程并不能彻底清除锁的问题。</p>
+<p>记得在数据库级别用<code>alter system kill session &#39;sid,serial#&#39;;</code>杀掉不正常的锁。</p>
+<h2 id="ORACLE-锁"><a href="#ORACLE-锁" class="headerlink" title="ORACLE 锁"></a>ORACLE 锁</h2><p>　　ORACLE数据库是现今数据库领域应用最广泛的，同时它也是一个庞大的系统，全面了解它、玩转它不但需要一定的理论知识，更需要开发经验与工程经验。本人是ORACLE一爱好者，以下是本人对ORACLE锁的一些经验，希望能与大家共同分享。</p>
+<p>ORACLE锁具体分为以下几类：</p>
+<h4 id="1-按用户与系统划分，可以分为自动锁与显示锁"><a href="#1-按用户与系统划分，可以分为自动锁与显示锁" class="headerlink" title="1. 按用户与系统划分，可以分为自动锁与显示锁"></a>1. 按用户与系统划分，可以分为自动锁与显示锁</h4><ul>
+<li>自动锁：当进行一项数据库操作时，缺省情况下，系统自动为此数据库操作获得所有有必要的锁。</li>
+<li>显示锁：某些情况下，需要用户显示的锁定数据库操作要用到的数据，才能使数据库操作执行得更好，显示锁是用户为数据库对象设定的。</li>
+</ul>
+<h4 id="2-按锁级别划分，可分为共享锁与排它锁"><a href="#2-按锁级别划分，可分为共享锁与排它锁" class="headerlink" title="2.按锁级别划分，可分为共享锁与排它锁"></a>2.按锁级别划分，可分为共享锁与排它锁</h4><ul>
+<li>共享锁：共享锁使一个事务对特定数据库资源进行共享访问——另一事务也可对此资源进行访问或获得相同共享锁。共享锁为事务提供高并发性，但如拙劣的事务设计+共享锁容易造成死锁或数据更新丢失。</li>
+<li>排它锁：事务设置排它锁后，该事务单独获得此资源，另一事务不能在此事务提交之前获得相同对象的共享锁或排它锁。</li>
+</ul>
+<h4 id="3-按操作划分，可分为DML锁、DDL锁"><a href="#3-按操作划分，可分为DML锁、DDL锁" class="headerlink" title="3.按操作划分，可分为DML锁、DDL锁"></a>3.按操作划分，可分为DML锁、DDL锁</h4><h5 id="DML锁又可以分为，行锁、表锁、死锁"><a href="#DML锁又可以分为，行锁、表锁、死锁" class="headerlink" title="DML锁又可以分为，行锁、表锁、死锁"></a>DML锁又可以分为，行锁、表锁、死锁</h5><ul>
+<li>行锁：当事务执行数据库插入、更新、删除操作时，该事务自动获得操作表中操作行的排它锁。</li>
+<li>表级锁：当事务获得行锁后，此事务也将自动获得该行的表锁(共享锁),以防止其它事务进行DDL语句影响记录行的更新。事务也可以在进行过程中获得共享锁或排它锁，只有当事务显示使用LOCK TABLE语句显示的定义一个排它锁时，事务才会获得表上的排它锁,也可使用LOCK TABLE显示的定义一个表级的共享锁(LOCK TABLE具体用法请参考相关文档)。</li>
+<li>死锁：当两个事务需要一组有冲突的锁，而不能将事务继续下去的话，就出现死锁。<br>　　<br>如事务1在表A行记录#3中有一排它锁，并等待事务2在表A中记录#4中排它锁的释放，而事务2在表A记录行#4中有一排它锁，并等待事务; 1在表A中记录#3中排它锁的释放，事务1与事务2彼此等待，因此就造成了死锁。死锁一般是因拙劣的事务设计而产生。死锁只能使用SQL下:alter system kill session “sid,serial#”；或者使用相关操作系统kill进程的命令，如UNIX下kill -9 sid,或者使用其它工具杀掉死锁进程。</li>
+</ul>
+<h5 id="DDL锁又可以分为：排它DDL锁、共享DDL锁、分析锁"><a href="#DDL锁又可以分为：排它DDL锁、共享DDL锁、分析锁" class="headerlink" title="DDL锁又可以分为：排它DDL锁、共享DDL锁、分析锁"></a>DDL锁又可以分为：排它DDL锁、共享DDL锁、分析锁</h5><ul>
+<li>排它DDL锁：创建、修改、删除一个数据库对象的DDL语句获得操作对象的 排它锁。如使用alter table语句时，为了维护数据的完成性、一致性、合法性，该事务获得一排它DDL锁。</li>
+<li>共享DDL锁：需在数据库对象之间建立相互依赖关系的DDL语句通常需共享获得DDL锁。<br>如创建一个包，该包中的过程与函数引用了不同的数据库表，当编译此包时，该事务就获得了引用表的共享DDL锁。</li>
+<li>分析锁：ORACLE使用共享池存储分析与优化过的SQL语句及PL/SQL程序，使运行相同语句的应用速度更快。一个在共享池中缓存的对象获得它所引用数据库对象的分析锁。分析锁是一种独特的DDL锁类型，ORACLE使用它追踪共享池对象及它所引用数据库对象之间的依赖关系。当一个事务修改或删除了共享池持有分析锁的数据库对象时，ORACLE使共享池中的对象作废，下次在引用这条SQL/PLSQL语句时，ORACLE重新分析编译此语句。</li>
+</ul>
+<h4 id="4-内部闩锁"><a href="#4-内部闩锁" class="headerlink" title="4.内部闩锁"></a>4.内部闩锁</h4><p>　　内部闩锁：这是ORACLE中的一种特殊锁，用于顺序访问内部系统结构。当事务需向缓冲区写入信息时，为了使用此块内存区域，ORACLE首先必须取得这块内存区域的闩锁，才能向此块内存写入信息。</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/" data-id="cjw28eins004og8tmalvu9mur" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "ORACLE 锁管理",
+        "image": "http://yoursite.com",
+        "keywords": "",
+        "genre": "软件开发 系统架构 数据存储 Oracle",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/",
+        "description": "ORACLE锁的管理ORACLE里锁有以下几种模式:
+
+0：none
+1：null      空
+2：Row-S     行共享(RS)：共享表锁  
+3：Row-X     行专用(RX)：用于行的修改
+4：Share     共享锁(S)：阻止其他DML操作
+5：S/Row-X   共享行专用(SRX)：阻止其他事务操作
+6：exclusive 专用(X)：独立访问使用
+
+数字越大锁级别越高,"
+        "wordCount": 188
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            ORACLE 回滚段管理
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">Mongodb</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

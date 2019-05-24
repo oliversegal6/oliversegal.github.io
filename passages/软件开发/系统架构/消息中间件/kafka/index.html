@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+
+    
+
+    
+    <title>Kafka | 静思轩</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content>
+    
+    <meta name="description" content="KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：  以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。 支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka">
+<meta property="og:url" content="http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/index.html">
+<meta property="og:site_name" content="静思轩">
+<meta property="og:description" content="KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：  以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。 支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/pic/kafkaCluster.png">
+<meta property="og:updated_time" content="2019-05-24T15:15:55.196Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kafka">
+<meta name="twitter:description" content="KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：  以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。 高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。 支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输">
+<meta name="twitter:image" content="http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/pic/kafkaCluster.png">
+    
+
+    
+        <link rel="alternate" href="/" title="静思轩" type="application/atom+xml">
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+</html>
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">别说你没天赋，你的努力程度还没到拼天赋地步</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                    
+                                <li class="main-nav-list-item">
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/">系统架构</a><i class="icon fa fa-angle-right"></i><a class="page-title-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a>
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-软件开发/系统架构/消息中间件/kafka" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        Kafka
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/passages/软件开发/系统架构/消息中间件/kafka/" class="article-date">
+            <time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time>
+        </a>
+    </div>
+
+		
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <h1 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h1><p>Kafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：</p>
+<ul>
+<li>以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。</li>
+<li>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。</li>
+<li>支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输。</li>
+<li>同时支持离线数据处理和实时数据处理。</li>
+<li>Scale out：支持在线水平扩展。</li>
+</ul>
+<p><a href="https://kafka.apache.org" title="Kafka" target="_blank" rel="noopener">Kafka</a> is a distributed, partitioned, replicated commit log service. ”</p>
+<p><img src="/passages/软件开发/系统架构/消息中间件/kafka/./pic/kafkaCluster.png" alt="kafkaCluster" title="kafkaCluster"></p>
+<p>它提供了一个非常特殊的消息机制，不同于传统的mq</p>
+<p>常见的实践场景是：</p>
+<ul>
+<li>复杂系统的解耦</li>
+<li>复杂链路的异步调用</li>
+<li>瞬时高峰的削峰处理</li>
+</ul>
+<p>引入中间件的问题：</p>
+<ul>
+<li>系统可用性降低：因为引入了中间件就相当于引入了新的风险</li>
+<li>系统稳定性降低： 消息高可靠传递（0丢失）， 消息幂等性传递（绝对不重复）， 百万消息积压的线上故障处理</li>
+<li>分布式一致性问题： 需要使用可靠消息最终一致性的分布式事务方案来保障</li>
+</ul>
+<p>Q: 线上服务宕机时，如何保证数据100%不丢失？</p>
+<p>A: 关闭AutoAck,在finally中手工Ack</p>
+<p>Q: 消息中间件集群崩溃，如何保证百万生产数据不丢失？</p>
+<p>A: 消息持久化</p>
+<h2 id="与传统的mq区别"><a href="#与传统的mq区别" class="headerlink" title="与传统的mq区别"></a>与传统的mq区别</h2><ul>
+<li>更快！单机上万TPS</li>
+<li>传统的MQ，消息被消化掉后会被mq删除，而kafka中消息被消化后不会被删除，而是到配置的expire时间后，才删除</li>
+<li>传统的MQ，消息的Offset是由MQ维护，而kafka中消息的Offset是由客户端自己维护</li>
+<li>分布式，把写入压力均摊到各个节点。可以通过增加节点降低压力</li>
+</ul>
+<h2 id="kafka基本原理"><a href="#kafka基本原理" class="headerlink" title="kafka基本原理"></a>kafka基本原理</h2><pre><code>通常来讲，消息模型可以分为两种：队列和发布-订阅式。队列的处理方式是一组消费者从服务器读取消息，一条消息只有其中的一个消费者来处理。在发布-订阅模型中，消息被广播给所有的消费者，接收到消息的消费者都可以处理此消息。Kafka为这两种模型提供了单一的消费者抽象模型： 消费者组(consumer group)。消费者用一个消费者组名标记自己。
+
+一个发布在Topic上消息被分发给此消费者组中的一个消费者。假如所有的消费者都在一个组中，那么这就变成了queue模型。假如所有的消费者都在不同的组中，那么就完全变成了发布-订阅模型。更通用的， 我们可以创建一些消费者组作为逻辑上的订阅者。每个组包含数目不等的消费者，一个组内多个消费者可以用来扩展性能和容错。       
+
+并且，kafka能够保证生产者发送到一个特定的Topic的分区上，消息将会按照它们发送的顺序依次加入，也就是说，如果一个消息M1和M2使用相同的producer发送，M1先发送，那么M1将比M2的offset低，并且优先的出现在日志中。消费者收到的消息也是此顺序。如果一个Topic配置了复制因子（replication facto）为N,那么可以允许N-1服务器宕机而不丢失任何已经提交（committed）的消息。此特性说明kafka有比传统的消息系统更强的顺序保证。但是，相同的消费者组中不能有比分区更多的消费者，否则多出的消费者一直处于空等待，不会收到消息。
+</code></pre><h2 id="主题和日志-Topic和Log"><a href="#主题和日志-Topic和Log" class="headerlink" title="主题和日志 (Topic和Log)"></a>主题和日志 (Topic和Log)</h2><pre><code>每一个分区(partition)都是一个顺序的、不可变的消息队列,并且可以持续的添加。分区中的消息都被分了一个序列号,称之为偏移量(offset),在每个分区中此偏移量都是唯一的。Kafka集群保持所有的消息,直到它们过期,无论消息是否被消费了。实际上消费者所持有的仅有的元数据就是这个偏移量，也就是消费者在这个log中的位置。 这个偏移量由消费者控制：正常情况当消费者消费消息的时候，偏移量也线性的的增加。但是实际偏移量由消费者控制，消费者可以将偏移量重置为更老的一个偏移量，重新读取消息。 可以看到这种设计对消费者来说操作自如， 一个消费者的操作不会影响其它消费者对此log的处理。 再说说分区。Kafka中采用分区的设计有几个目的。一是可以处理更多的消息，不受单台服务器的限制。Topic拥有多个分区意味着它可以不受限的处理更多的数据。第二，分区可以作为并行处理的单元，稍后会谈到这一点。
+</code></pre><h2 id="分布式-Distribution"><a href="#分布式-Distribution" class="headerlink" title="分布式(Distribution)"></a>分布式(Distribution)</h2><pre><code>Log的分区被分布到集群中的多个服务器上。每个服务器处理它分到的分区。根据配置每个分区还可以复制到其它服务器作为备份容错。 每个分区有一个leader，零或多个follower。Leader处理此分区的所有的读写请求，而follower被动的复制数据。如果leader宕机，其它的一个follower会被推举为新的leader。 一台服务器可能同时是一个分区的leader，另一个分区的follower。 这样可以平衡负载，避免所有的请求都只让一台或者某几台服务器处理。
+</code></pre><h2 id="基本术语"><a href="#基本术语" class="headerlink" title="基本术语"></a>基本术语</h2><h3 id="Producer-Consumer"><a href="#Producer-Consumer" class="headerlink" title="Producer/Consumer"></a>Producer/Consumer</h3><p>这两个与传统的MQ一样</p>
+<h3 id="Broker"><a href="#Broker" class="headerlink" title="Broker"></a>Broker</h3><p>集群中的KafkaServer，用来提供Partition服务</p>
+<h3 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h3><p>Kafka中的topic其实对应传统MQ的channel，即消息管道，例如同一业务用同一根管道。Topic 在逻辑上可以被认为是一个 queue，每条消费都必须指定它的 Topic，可以简单理解为必须指明把这条消息放进哪个 queue 里。为了使得 Kafka 的吞吐率可以线性提高，物理上把 Topic 分成一个或多个 Partition，每个 Partition 在物理上对应一个文件夹，该文件夹下存储这个 Partition 的所有消息和索引文件</p>
+<h3 id="Offset"><a href="#Offset" class="headerlink" title="Offset"></a>Offset</h3><p>单个Partition中的消息的顺序ID，例如第一个进入的Offset为0，第二个为1，以此类推。传统的MQ，Offset是由MQ自己维护，而kafka是由client维护</p>
+<h3 id="Producer-消息路由"><a href="#Producer-消息路由" class="headerlink" title="Producer 消息路由"></a>Producer 消息路由</h3><p>Kafka会统计replica与leader的同步情况。当一个replica与leader数据相差不大，会被认为是一个”in-sync” replica。只有”in-sync” replica才有资格参与重新选举。</p>
+<p>Producer 发送消息到 broker 时，会根据 Paritition 机制选择将其存储到哪一个 Partition。如果 Partition 机制设置合理，所有消息可以均匀分布到不同的 Partition 里，这样就实现了负载均衡。如果一个 Topic 对应一个文件，那这个文件所在的机器 I/O 将会成为这个 Topic 的性能瓶颈，而有了 Partition 后，不同的消息可以并行写入不同 broker 的不同 Partition 里，极大的提高了吞吐率。可以在 $KAFKA_HOME/config/server.properties 中通过配置项 num.partitions 来指定新建 Topic 的默认 Partition 数量</p>
+<p>在发送一条消息时，可以指定这条消息的 key，Producer 根据这个 key 和 Partition 机制来判断应该将这条消息发送到哪个 Parition</p>
+<h3 id="ConsumerGroup"><a href="#ConsumerGroup" class="headerlink" title="ConsumerGroup"></a>ConsumerGroup</h3><p>一个或多个Consumer构成一个ConsumerGroup，一个消息应该只能被同一个ConsumerGroup中的一个Consumer消化掉，但是可以同时发送到不同ConsumerGroup。</p>
+<p>通常的做法，一个Consumer去对应一个Partition。</p>
+<p>传统MQ中有queuing（消息）和publish-subscribe（订阅）模式，Kafka中也支持：</p>
+<p>当所有Consumer具有相同的ConsumerGroup时，该ConsumerGroup中只有一个Consumer能收到消息，就是 queuing 模式<br>当所有Consumer具有不同的ConsumerGroup时，每个ConsumerGroup会收到相同的消息，就是 publish-subscribe 模式</p>
+<p><img src="/passages/软件开发/系统架构/消息中间件/kafka/./pic/consumergroup.png" alt="consumergroup" title="Consumer group"></p>
+<h3 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h3><p>　　kafka 集群中的其中一个服务器，用来进行 leader election 以及 各种 failover。</p>
+<h3 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h3><p>　　kafka 通过 zookeeper 来存储集群的 meta 信息。</p>
+<h2 id="Message-Delivery-Semantics"><a href="#Message-Delivery-Semantics" class="headerlink" title="Message  Delivery Semantics"></a>Message  Delivery Semantics</h2><p> 有这么几种可能的 delivery guarantee：</p>
+<ul>
+<li>At least one 消息可能会丢，但绝不会重复传输。如果producer收到来自Kafka broker的确认（ack）或者acks = all，则表示该消息已经写入到Kafka。但如果producer ack超时或收到错误，则可能会重试发送消息，客户端会认为该消息未写入Kafka。如果broker在发送Ack之前失败，但在消息成功写入Kafka之后，此重试将导致该消息被写入两次，因此消息会被不止一次地传递给最终consumer，这种策略可能导致重复的工作和不正确的结果。</li>
+<li>At most once 消息绝不会丢，但可能会重复传输。如果在ack超时或返回错误时producer不重试，则该消息可能最终不会写入Kafka，因此不会传递给consumer。在大多数情况下，这样做是为了避免重复的可能性，业务上必须接收数据传递可能的丢失。</li>
+<li>Exactly once 每条消息肯定会被传输一次且仅传输一次，很多时候这是用户所想要的。即使producer重试发送消息，消息也会保证最多一次地传递给最终consumer。该语义是最理想的，但也难以实现，这是因为它需要消息系统本身与生产和消费消息的应用程序进行协作。例如如果在消费消息成功后，将Kafka consumer的偏移量rollback，我们将会再次从该偏移量开始接收消息。这表明消息传递系统和客户端应用程序必须配合调整才能实现excactly-once。</li>
+</ul>
+<h3 id="ACK-前需要保证有多少个备份"><a href="#ACK-前需要保证有多少个备份" class="headerlink" title="ACK 前需要保证有多少个备份"></a>ACK 前需要保证有多少个备份</h3><p>Broker 存活包含两个条件，一是它必须维护与 ZooKeeper 的 session（这个通过 ZooKeeper 的 Heartbeat 机制来实现）。二是 Follower 必须能够及时将 Leader 的消息复制过来，不能“落后太多”</p>
+<p>Leader 会跟踪与其保持同步的 Replica 列表，该列表称为 ISR（即 in-sync Replica）。如果一个 Follower 宕机，或者落后太多，Leader 将把它从 ISR 中移除。这里所描述的“落后太多”指 Follower 复制的消息落后于 Leader 后的条数超过预定值或者 Follower 超过一定时间</p>
+<p>Kafka 的复制机制既不是完全的同步复制，也不是单纯的异步复制。事实上，完全同步复制要求所有能工作的 Follower 都复制完，这条消息才会被认为 commit，这种复制方式极大的影响了吞吐率（高吞吐率是 Kafka 非常重要的一个特性）。而异步复制方式下，Follower 异步的从 Leader 复制数据，数据只要被 Leader 写入 log 就被认为已经 commit，这种情况下如果 Follower 都复制完都落后于 Leader，而如果 Leader 突然宕机，则会丢失数据。而 Kafka 的这种使用 ISR 的方式则很好的均衡了确保数据不丢失以及吞吐率。Follower 可以批量的从 Leader 复制数据，这样极大的提高复制性能（批量写磁盘），极大减少了 Follower 与 Leader 的差距。</p>
+<h2 id="高效使用磁盘"><a href="#高效使用磁盘" class="headerlink" title="高效使用磁盘"></a>高效使用磁盘</h2><p>根据JBOD配置的顺序写的性能可以达到600Mb/sec，是随机写100k/sec的6000倍</p>
+<h3 id="顺序写磁盘"><a href="#顺序写磁盘" class="headerlink" title="顺序写磁盘"></a>顺序写磁盘</h3><p>Kafka 的整个设计中，Partition 相当于一个非常长的数组，而 Broker 接收到的所有消息顺序写入这个大数组中。同时 Consumer 通过 Offset 顺序消费这些数据，并且不删除已经消费的数据，从而避免了随机写磁盘的过程。</p>
+<p>由于磁盘有限，不可能保存所有数据，实际上作为消息系统 Kafka 也没必要保存所有数据，需要删除旧的数据。而这个删除过程，并非通过使用“读 - 写”模式去修改文件，而是将 Partition 分为多个 Segment，每个 Segment 对应一个物理文件，通过删除整个文件的方式去删除 Partition 内的数据。这种方式清除旧数据的方式，也避免了对文件的随机写操作。</p>
+<h3 id="充分利用-Page-Cache"><a href="#充分利用-Page-Cache" class="headerlink" title="充分利用 Page Cache"></a>充分利用 Page Cache</h3><p>使用 Page Cache 的好处如下</p>
+<ul>
+<li>I/O Scheduler 会将连续的小块写组装成大块的物理写从而提高性能</li>
+<li>I/O Scheduler 会尝试将一些写操作重新按顺序排好，从而减少磁盘头的移动时间</li>
+<li>充分利用所有空闲内存（非 JVM 内存）。如果使用应用层 Cache（即 JVM 堆内存），会增加 GC 负担</li>
+<li>读操作可直接在 Page Cache 内进行。如果消费和生产速度相当，甚至不需要通过物理磁盘（直接通过 Page Cache）交换数据</li>
+<li>如果进程重启，JVM 内的 Cache 会失效，但 Page Cache 仍然可用</li>
+</ul>
+<h2 id="Zero-copy"><a href="#Zero-copy" class="headerlink" title="Zero copy"></a>Zero copy</h2><p>Kafka 中存在大量的网络数据持久化到磁盘（Producer 到 Broker）和磁盘文件通过网络发送（Broker 到 Consumer）的过程。这一过程的性能直接影响 Kafka 的整体吞吐量。</p>
+<p>Linux 2.4+ 内核通过 sendfile 系统调用，提供了零拷贝。为了理解sendfile,需要去看以下通常情况下怎样传输数据从文件到网络socket:</p>
+<ul>
+<li>操作系统把数据从硬盘读入内核空间的pagecache</li>
+<li>应用把数据从内核读入user-space buffer</li>
+<li>应用把数据写回到kernel space 再到一个 socket buffer</li>
+<li>操作系统把数据从socket buffer复制到NIC buffer发送到网络</li>
+</ul>
+<p>上面的操作效率很低，包含了4次复制和2次系统call. 使用 sendfile, 可以通过OS直接发送数据从pagecache到网络来避免重复的复制. 所以使用这种优化方式，只需要最后一次NIC buffer复制.<br>使用zero-copy优化, 数据只复制到pagecache一次，并且重用而不是存储在内存和user-space。这种pagecache和sendfile的组合意味着consumers消费时没有磁盘读，所有的数据都从pagecache读。</p>
+<h2 id="高可用-多副本Replication"><a href="#高可用-多副本Replication" class="headerlink" title="高可用(多副本Replication)"></a>高可用(多副本Replication)</h2><p>Kafka Log的分区被分布到集群中的多个服务器上。每个服务器处理它分到的分区。根据配置每个分区还可以复制到其它服务器作为备份容错。 每个分区有一个leader，零或多个follower。Leader处理此分区的所有的读写请求，而follower被动的复制数据。如果leader宕机，其它的一个follower会被推举为新的leader。 一台服务器可能同时是一个分区的leader，另一个分区的follower。 这样可以平衡负载，避免所有的请求都只让一台或者某几台服务器处理</p>
+<p>Kafka node 存活有两个条件：</p>
+<ul>
+<li>Node必须保存session在ZooKeeper中(通过ZooKeeper’s heartbeat机制)</li>
+<li>Slave需要复制leader的写操作并且不能落后太多</li>
+</ul>
+<p>但不同的是，这个 ISR 是由 Leader 动态维护的。如果 Follower 不能紧“跟上”Leader，它将被 Leader 从 ISR 中移除，待它又重新“跟上”Leader 后，会被 Leader 再次加加 ISR 中。每次改变 ISR 后，Leader 都会将最新的 ISR 持久化到 Zookeeper 中。</p>
+<h3 id="Replicated-Logs-Quorums-ISRs-and-State-Machines"><a href="#Replicated-Logs-Quorums-ISRs-and-State-Machines" class="headerlink" title="Replicated Logs: Quorums, ISRs, and State Machines"></a>Replicated Logs: Quorums, ISRs, and State Machines</h3><p>Kafka 在 ZooKeeper 中动态维护了一个 ISR（in-sync replicas），这个 ISR 里的所有 Replica 都跟上了 leader，只有 ISR 里的成员才有被选为 Leader 的可能。在这种模式下，对于 f+1 个 Replica，一个 Partition 能在保证不丢失已经 commit 的消息的前提下容忍 f 个 Replica 的失败</p>
+<h3 id="如何将所有-Replica-均匀分布到整个集群"><a href="#如何将所有-Replica-均匀分布到整个集群" class="headerlink" title="如何将所有 Replica 均匀分布到整个集群"></a>如何将所有 Replica 均匀分布到整个集群</h3><p>为了更好的做负载均衡，Kafka 尽量将所有的 Partition 均匀分配到整个集群上。一个典型的部署方式是一个 Topic 的 Partition 数量大于 Broker 的数量。同时为了提高 Kafka 的容错能力，也需要将同一个 Partition 的 Replica 尽量分散到不同的机器</p>
+<p>Kafka 的 Data Replication 需要解决如下问题：</p>
+<ul>
+<li>怎样 Propagate 消息</li>
+<li>在向 Producer 发送 ACK 前需要保证有多少个 Replica 已经收到该消息</li>
+<li>怎样处理某个 Replica 不工作的情况</li>
+<li>怎样处理 Failed Replica 恢复回来的情况</li>
+</ul>
+<p>Producer 在发布消息到某个 Partition 时，先通过 ZooKeeper 找到该 Partition 的 Leader，然后无论该 Topic 的 Replication Factor 为多少（也即该 Partition 有多少个 Replica），Producer 只将该消息发送到该 Partition 的 Leader。Leader 会将该消息写入其本地 Log。每个 Follower 都从 Leader pull 数据。这种方式上，Follower 存储的数据顺序与 Leader 保持一致。Follower 在收到该消息并写入其 Log 后，向 Leader 发送 ACK。一旦 Leader 收到了 ISR 中的所有 Replica 的 ACK，该消息就被认为已经 commit 了，Leader 将增加 HW 并且向 Producer 发送 ACK。</p>
+<p>为了提高性能，每个 Follower 在接收到数据后就立马向 Leader 发送 ACK，而非等到数据写入 Log 中。因此，对于已经 commit 的消息，Kafka 只能保证它被存于多个 Replica 的内存中，而不能保证它们被持久化到磁盘中，也就不能完全保证异常发生后该条消息一定能被 Consumer 消费</p>
+<p>Consumer 读消息也是从 Leader 读取，只有被 commit 过的消息（offset 低于 HW 的消息）才会暴露给 Consumer。</p>
+<h3 id="ISR-实现可用性与数据一致性的动态平衡"><a href="#ISR-实现可用性与数据一致性的动态平衡" class="headerlink" title="ISR 实现可用性与数据一致性的动态平衡"></a>ISR 实现可用性与数据一致性的动态平衡</h3><p>常用数据复制及一致性方案</p>
+<h4 id="Master-Slave"><a href="#Master-Slave" class="headerlink" title="Master-Slave"></a>Master-Slave</h4><ul>
+<li>RDBMS 的读写分离即为典型的 Master-Slave 方案</li>
+<li>同步复制可保证强一致性但会影响可用性</li>
+<li>异步复制可提供高可用性但会降低一致性</li>
+</ul>
+<h4 id="WNR"><a href="#WNR" class="headerlink" title="WNR"></a>WNR</h4><ul>
+<li>主要用于去中心化的分布式系统中。DynamoDB 与 Cassandra 即采用此方案或其变种</li>
+<li>N 代表总副本数，W 代表每次写操作要保证的最少写成功的副本数，R 代表每次读至少要读取的副本数</li>
+<li>当 W+R&gt;N 时，可保证每次读取的数据至少有一个副本拥有最新的数据</li>
+<li>多个写操作的顺序难以保证，可能导致多副本间的写操作顺序不一致。Dynamo 通过向量时钟保证最终一致性</li>
+</ul>
+<h4 id="Paxos-及其变种"><a href="#Paxos-及其变种" class="headerlink" title="Paxos 及其变种"></a>Paxos 及其变种</h4><ul>
+<li>Google 的 Chubby，Zookeeper 的原子广播协议（Zab），RAFT 等</li>
+</ul>
+<h4 id="基于-ISR-的数据复制方案"><a href="#基于-ISR-的数据复制方案" class="headerlink" title="基于 ISR 的数据复制方案"></a>基于 ISR 的数据复制方案</h4><p>Kafka 的数据复制是以 Partition 为单位的。而多个备份间的数据复制，通过 Follower 向 Leader 拉取数据完成Kafka 的数据复制方案接近于上文所讲的 Master-Slave 方案。不同的是，Kafka 既不是完全的同步复制，也不是完全的异步复制，而是基于 ISR 的动态复制方案</p>
+<p>ISR，也即 In-sync Replica。每个 Partition 的 Leader 都会维护这样一个列表，该列表中，包含了所有与之同步的 Replica（包含 Leader 自己）。每次数据写入时，只有 ISR 中的所有 Replica 都复制完，Leader 才会将其置为 Commit，它才能被 Consumer 所消费。</p>
+<p>这种方案，与同步复制非常接近。但不同的是，这个 ISR 是由 Leader 动态维护的。如果 Follower 不能紧“跟上”Leader，它将被 Leader 从 ISR 中移除，待它又重新“跟上”Leader 后，会被 Leader 再次加加 ISR 中。每次改变 ISR 后，Leader 都会将最新的 ISR 持久化到 Zookeeper 中。Kafka 删除 Segment 的方式，是直接删除 Segment 对应的整个 log 文件和整个 index 文件而非删除文件中的部分内容。</p>
+<h2 id="水平扩展-分区Partition"><a href="#水平扩展-分区Partition" class="headerlink" title="水平扩展(分区Partition)"></a>水平扩展(分区Partition)</h2><p>一个Topic中可以有一个或多个partition。<br>一个Broker上可以跑一个或多个Partition。集群中尽量保证partition的均匀分布，例如定义了一个有3个partition的topic，而只有两个broker，那么一个broker上跑两个partition，而另一个是1个。但是如果有3个broker，必然是3个broker上各跑一个partition。</p>
+<p>Partition中严格按照消息进入的顺序排序<br>一个从Producer发送来的消息，只会进入Topic的某一个Partition（除非特殊实现Producer要求消息进入所有Partition）<br>Consumer可以自己决定从哪个Partition读取数据</p>
+<p><img src="/passages/软件开发/系统架构/消息中间件/kafka/./pic/kafkapartition.png" alt="kafkapartition" title="kafkapartition"></p>
+<h3 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h3><p>负载均衡可以通过client端控制，选择一个key来hash到不同的partition</p>
+<p>客户端控制把数据发到哪个partition。可以是随机的负载均衡，也可以是其他的分区方式。Kafka暴露接口可以让用户自己实现逻辑，比如可以把user id作为key，然后同一个user的数据就会到同一个partition。</p>
+<h3 id="异步发送"><a href="#异步发送" class="headerlink" title="异步发送"></a>异步发送</h3><p>批量发送可以提高性能，kafka producer可以累积数据在内存中，然后把一批数据通过一个请求发送出去。batch大小可以通过时间和数据大小控制。</p>
+<h3 id="数据自动均衡"><a href="#数据自动均衡" class="headerlink" title="数据自动均衡"></a>数据自动均衡</h3><p>增加和减少partition时可能需要做数据平衡，需要使用使用kafka提供的工具kafka-reassign-partitions.sh来迁移数据</p>
+<h2 id="基本交互原理"><a href="#基本交互原理" class="headerlink" title="基本交互原理"></a>基本交互原理</h2><p>每个Topic被创建后，在zookeeper上存放有其metadata，包含其分区信息、replica信息、LogAndOffset等<br>默认路径/brokers/topics/&lt;topic_id&gt;/partitions/&lt;partition_index&gt;/state</p>
+<p>Producer可以通过zookeeper获得topic的broker信息，从而得知需要往哪写数据。</p>
+<p>Consumer也从zookeeper上获得该信息，从而得知要监听哪个partition。</p>
+<h2 id="创建一个Producer"><a href="#创建一个Producer" class="headerlink" title="创建一个Producer"></a>创建一个Producer</h2><p>Kafka提供了java api，Producer特别的简单，举传输byte[] 为例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Properties p = <span class="keyword">new</span> Properties();</span><br><span class="line">props.put(<span class="string">"metadata.broker.list"</span>, <span class="string">"10.1.110.21:9092"</span>);</span><br><span class="line">ProducerConfig config = <span class="keyword">new</span> ProducerConfig(props);</span><br><span class="line">Producer producer = <span class="keyword">new</span> Producer&lt;String, <span class="keyword">byte</span>[]&gt;(config);</span><br><span class="line">producer.send(<span class="keyword">byte</span>[] msg);</span><br></pre></td></tr></table></figure>
+<h2 id="创建一个Consumer"><a href="#创建一个Consumer" class="headerlink" title="创建一个Consumer"></a>创建一个Consumer</h2><p>Kafka提供了两种java的Consumer API：High Level Consumer和Simple Consumer</p>
+<p>如何保证kafka的高容错性？</p>
+<p>producer不使用批量接口，并采用同步模型持久化消息。<br>consumer不采用批量化，每消费一次就更新offset</p>
+<h2 id="Setup-Kafka"><a href="#Setup-Kafka" class="headerlink" title="Setup Kafka"></a>Setup Kafka</h2><p><a href="https://kafka.apache.org/quickstart" title="Quick Start" target="_blank" rel="noopener">Quick Start</a></p>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><ol>
+<li>Start the server</li>
+</ol>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/zookeeper-server-start.sh ~/Work/Develop/kafka_2.11-1.0.0/config/zookeeper.properties &amp;</p>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-server-start.sh ~/Work/Develop/kafka_2.11-1.0.0/config/server1.properties &amp;</p>
+<ol start="2">
+<li>Create a topic</li>
+</ol>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-topics.sh –create –zookeeper localhost:2181 –replication-factor 1 –partitions 1 –topic test</p>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-topics.sh –list –zookeeper localhost:2181</p>
+<ol start="3">
+<li>Send/Consume some messages</li>
+</ol>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-console-producer.sh –broker-list localhost:9092 –topic test</p>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-console-consumer.sh –bootstrap-server localhost:9092 –topic test –from-beginning</p>
+<ol start="4">
+<li>Setting up a multi-broker cluster</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">config/server-1.properties:</span><br><span class="line">    broker.id=1</span><br><span class="line">    listeners=PLAINTEXT://:9092</span><br><span class="line">    log.dirs=~/Work/Develop/kafka_2.11-1.0.0/logs/kafka-logs-1</span><br><span class="line"> </span><br><span class="line">config/server-2.properties:</span><br><span class="line">    broker.id=2</span><br><span class="line">    listeners=PLAINTEXT://:9094</span><br><span class="line">    log.dirs=~/Work/Develop/kafka_2.11-1.0.0/logs/kafka-logs-2</span><br><span class="line"></span><br><span class="line">config/server-3.properties:</span><br><span class="line">    broker.id=3</span><br><span class="line">    listeners=PLAINTEXT://:9094</span><br><span class="line">    log.dirs=~/Work/Develop/kafka_2.11-1.0.0/logs/kafka-logs-3</span><br></pre></td></tr></table></figure>
+<p>Restart 3 nodes</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-server-start.sh ~/Work/Develop/kafka_2.11-1.0.0/config/server1.properties &amp;</span><br><span class="line">~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-server-start.sh ~/Work/Develop/kafka_2.11-1.0.0/config/server2.properties &amp;</span><br><span class="line">~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-server-start.sh ~/Work/Develop/kafka_2.11-1.0.0/config/server3.properties &amp;</span><br></pre></td></tr></table></figure>
+<p>create a new topic with a replication factor of three:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> ~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 3 --topic my-replicated-topic</span><br></pre></td></tr></table></figure>
+<p>describe topics” command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-replicated-topic</span><br></pre></td></tr></table></figure>
+<p>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-console-producer.sh –broker-list localhost:9092 –topic my-replicated-topic<br>~/Work/Develop/kafka_2.11-1.0.0/bin/kafka-console-consumer.sh –bootstrap-server localhost:9092 –from-beginning –topic my-replicated-topic</p>
+<p>ps aux | grep server-1.properties</p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><h4 id="1-Start-the-server"><a href="#1-Start-the-server" class="headerlink" title="1. Start the server"></a>1. Start the server</h4><p><strong>start zookeeper</strong><br>bin\windows\zookeeper-server-start.bat config\zookeeper.properties<br><strong>start kafka</strong><br>bin\windows\kafka-server-start.bat config\server.properties</p>
+<h4 id="2-Create-a-topic"><a href="#2-Create-a-topic" class="headerlink" title="2. Create a topic"></a>2. Create a topic</h4><p>Let’s create a topic named “test” with a single partition and only one replica:<br><code>bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test</code></p>
+<p>We can now see that topic if we run the list topic command:<br><code>bin\windows\kafka-topics.bat --list --zookeeper localhost:2181</code></p>
+<h4 id="3-Send-some-messages"><a href="#3-Send-some-messages" class="headerlink" title="3. Send some messages"></a>3. Send some messages</h4><p>Kafka comes with a command line client that will take input from a file or from standard input and send it out as messages to the Kafka cluster. By default, each line will be sent as a separate message.</p>
+<p>Run the producer and then type a few messages into the console to send to the server.</p>
+<p><code>bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic test</code></p>
+<h4 id="4-Start-a-consumer"><a href="#4-Start-a-consumer" class="headerlink" title="4. Start a consumer"></a>4. Start a consumer</h4><p>Kafka also has a command line consumer that will dump out messages to standard output.</p>
+<p><code>bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning</code></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/" data-id="cjw28eijb0036g8tmgiko0rs0" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Oliver"
+        },
+        "headline": "Kafka",
+        "image": "http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/./pic/kafkaCluster.png",
+        "keywords": "",
+        "genre": "软件开发 系统架构 消息中间件",
+        "datePublished": "2019-05-24",
+        "dateCreated": "2019-05-24",
+        "dateModified": "2019-05-24",
+        "url": "http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/",
+        "description": "KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：
+
+以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。
+高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。
+支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输"
+        "wordCount": 1094
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/ppoffice/hexo-theme-hueman" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/passages/软件开发/系统架构/虚拟机容器/docker/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">下一篇</strong>
+        <p class="article-nav-title">
+        
+            Docker
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/passages/软件开发/系统架构/消息中间件/消息中间件/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">消息中间件</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/消息中间件/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:53.162Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/数据存储/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.708Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/搜索引擎/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.687Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式流式计算/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.636Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/passages/软件开发/系统架构/分布式架构/README/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2019-05-24T15:16:52.545Z" itemprop="datePublished">2019-05-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">52</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2019 Oliver</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/passages/软件开发/系统架构/消息中间件/kafka/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
