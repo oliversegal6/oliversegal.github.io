@@ -70,7 +70,7 @@
                                     <a class="main-nav-list-link" href="/">主页</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
                                     
                                 <li class="main-nav-list-item">
                                     <a class="main-nav-list-link" href="/about/index.html">关于</a>
@@ -162,25 +162,19 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/">Redis</a>
+        <a href="/passages/软件开发/系统架构/搜索引擎/Lucence/">Lucence</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。
-使用 Redis 的常见问题
-
-缓存和数据库双写一致性问题
-缓存雪崩问题
-缓存击穿问题
-缓存的并发竞争问题
-
-Redis 是单线程工作模型。
-原因主要是以下三点：
-
-纯内存操作
-单线程操作，避免了频繁的上下文切换
-采用了非
+            [TOC]
+一、环境需要导入lucene.jar包（在lucene.apache.org下载）
+二、基本概念1．Lucene的工作流程：
+使用IndexWriter，在指定的目录建立索引的文件
+将需要检索的数据转换位Document的Filed对象，然后将Document用IndexWriter添加倒索引的文件中
+处理索引信息，关闭IndexWriter流
+创建搜索的Query
+给IndexSea
         </p>
     </div>
 </article>
@@ -202,13 +196,15 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
+        <a href="/passages/软件开发/系统架构/分布式架构/服务容错设计/">服务容错设计</a>
         </h1>
     
 
         <p class="article-excerpt">
-            [TOC]
-既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
+            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
+1）一个依赖服务的故障不会严重破坏用户的体验。
+2）系统能自动或半自动处理故障，具备自我恢复能力。
+经典的容错模式超时与重试（Time
         </p>
     </div>
 </article>
@@ -261,15 +257,12 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/分表分库/">分表分库</a>
+        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
         </h1>
     
 
         <p class="article-excerpt">
-            分表分库基本思想Sharding的基本思想就要把一个数据库切分成多个部分放到不同的数据库(server)上，从而缓解单一数据库的性能问题。
-
-对于海量数据的数据库，如果是因为表多而数据多，这时候适合使用垂直切分，即把关系紧密（比如同一模块）的表切分出来放在一个server上。
-如果表并不多，但每张表的数据非常多，这时候适合水平切分，即把表的数据按某种规则（比如按ID散列）切分到多个数据库(serv
+            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
         </p>
     </div>
 </article>
@@ -295,12 +288,15 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
+        <a href="/passages/软件开发/系统架构/数据存储/分表分库/">分表分库</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
+            分表分库基本思想Sharding的基本思想就要把一个数据库切分成多个部分放到不同的数据库(server)上，从而缓解单一数据库的性能问题。
+
+对于海量数据的数据库，如果是因为表多而数据多，这时候适合使用垂直切分，即把关系紧密（比如同一模块）的表切分出来放在一个server上。
+如果表并不多，但每张表的数据非常多，这时候适合水平切分，即把表的数据按某种规则（比如按ID散列）切分到多个数据库(serv
         </p>
     </div>
 </article>
@@ -356,14 +352,12 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/重构/">重构</a>
+        <a href="/passages/软件开发/系统架构/架构设计/设计模式/">设计模式</a>
         </h1>
     
 
         <p class="article-excerpt">
-            重构技巧 — 函数重构
-重命名函数（Rename Function Name） :  Clean Code 要求定义的变量和函数名可读性要强，从名字就可以知道这个变量和函数去做什么事情，所以好的可读性强的函数名称很重要，特别是有助于理解比较复杂的业务逻辑。
-移除参数（Remove Parameter）: 当函数不再需要某个参数时，要果断移除，不要为了某个未知需求预留参数，过多的参数会给使用者带来参
+            设计模式设计模式的分类五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式并发型模式 ： Future模式,Master_worker模
         </p>
     </div>
 </article>
@@ -385,12 +379,14 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/设计模式/">设计模式</a>
+        <a href="/passages/软件开发/系统架构/架构设计/重构/">重构</a>
         </h1>
     
 
         <p class="article-excerpt">
-            设计模式设计模式的分类五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式并发型模式 ： Future模式,Master_worker模
+            重构技巧 — 函数重构
+重命名函数（Rename Function Name） :  Clean Code 要求定义的变量和函数名可读性要强，从名字就可以知道这个变量和函数去做什么事情，所以好的可读性强的函数名称很重要，特别是有助于理解比较复杂的业务逻辑。
+移除参数（Remove Parameter）: 当函数不再需要某个参数时，要果断移除，不要为了某个未知需求预留参数，过多的参数会给使用者带来参
         </p>
     </div>
 </article>
@@ -416,14 +412,16 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/虚拟机容器/docker/">Docker</a>
+        <a href="/passages/软件开发/系统架构/消息中间件/kafka/">Kafka</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Docker基础Ubuntu Docker 安装http://www.docker.org.cn/book/install/install-docker-under-ubuntu-precise-20.html
-curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/intranet | sh
-内核
+            KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：
+
+以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。
+高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。
+支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输
         </p>
     </div>
 </article>
@@ -445,16 +443,14 @@ curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/in
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/消息中间件/kafka/">Kafka</a>
+        <a href="/passages/软件开发/系统架构/虚拟机容器/docker/">Docker</a>
         </h1>
     
 
         <p class="article-excerpt">
-            KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：
-
-以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。
-高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。
-支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输
+            Docker基础Ubuntu Docker 安装http://www.docker.org.cn/book/install/install-docker-under-ubuntu-precise-20.html
+curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/intranet | sh
+内核
         </p>
     </div>
 </article>
@@ -598,7 +594,7 @@ curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/in
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">38</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
         </div>
     </div>
 

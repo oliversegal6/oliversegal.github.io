@@ -70,7 +70,7 @@
                                     <a class="main-nav-list-link" href="/">主页</a>
                                 </li>
                             
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/">软件开发</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/服务器/">服务器</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/机器学习/">机器学习</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/软件开发/系统架构/">系统架构</a></li></ul></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/">金融</a><ul class="main-nav-list-child"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/金融/投资/">投资</a></li></ul></li></ul>
                                     
                                 <li class="main-nav-list-item">
                                     <a class="main-nav-list-link" href="/about/index.html">关于</a>
@@ -298,34 +298,6 @@ QPS（TPS）：每秒钟request/事务 数量
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Spring读书笔记/">Spring读书笔记</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            [TOC]
-SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学是提供一种无侵入式的高扩展性框架。即无需代码中涉及Spring专有类，即可将其纳入Spring容器进行管理。作为对比，EJB则是一种高度侵入性的框架规范，它制定了众多的接口和编码规范，要求实现者必须遵从。侵入性的后果就是，一旦系统基于侵入性框架设计开发，那么之后任何脱离这个框架的企图都将付出极大的代价。为了
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
         <a href="/passages/软件开发/系统架构/Spring相关/AOP/">AOP</a>
         </h1>
     
@@ -338,40 +310,6 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
     </div>
 </article>
     
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            高可靠消息服务总体架构
-消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
-
-路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
-        </p>
-    </div>
-</article>
-    
 
     
     
@@ -389,17 +327,25 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/MicroService/">MicroService</a>
+        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/">Redis</a>
         </h1>
     
 
         <p class="article-excerpt">
-            微服务架构监控微服务架构虽然解决了目前诸多的架构层面的问题，但在分布式部署的环境中，如何才能够有效监控每一个服务，并及时发现系统中的问题又成为了新的挑战
-在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
+            Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。
+使用 Redis 的常见问题
 
-基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封装的框架。
+缓存和数据库双写一致性问题
+缓存雪崩问题
+缓存击穿问题
+缓存的并发竞争问题
 
-自动探针，适用语言：J
+Redis 是单线程工作模型。
+原因主要是以下三点：
+
+纯内存操作
+单线程操作，避免了频繁的上下文切换
+采用了非
         </p>
     </div>
 </article>
@@ -425,15 +371,13 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/服务容错设计/">服务容错设计</a>
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
         </h1>
     
 
         <p class="article-excerpt">
-            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
-1）一个依赖服务的故障不会严重破坏用户的体验。
-2）系统能自动或半自动处理故障，具备自我恢复能力。
-经典的容错模式超时与重试（Time
+            [TOC]
+既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
@@ -442,6 +386,38 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
     
     
     
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/Spring相关/Spring读书笔记/">Spring读书笔记</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            [TOC]
+SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学是提供一种无侵入式的高扩展性框架。即无需代码中涉及Spring专有类，即可将其纳入Spring容器进行管理。作为对比，EJB则是一种高度侵入性的框架规范，它制定了众多的接口和编码规范，要求实现者必须遵从。侵入性的后果就是，一旦系统基于侵入性框架设计开发，那么之后任何脱离这个框架的企图都将付出极大的代价。为了
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -469,6 +445,36 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
 
 数据拆分有两种，垂直拆分和水平拆分。垂直拆分是把不同的业务数据分到不同的数据库，水平拆分是根据一定规则把同一业务数据拆分到多个数据库。
 垂直拆分会有以下
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            高可靠消息服务总体架构
+消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
+
+路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
         </p>
     </div>
 </article>
@@ -612,7 +618,7 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
     <div class="widget-wrap widget-list">
         <h3 class="widget-title">分类</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">37</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/">软件开发</a><span class="category-list-count">38</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/服务器/">服务器</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/机器学习/">机器学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/">系统架构</a><span class="category-list-count">29</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/Spring/">Spring</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式架构/">分布式架构</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/分布式缓存/">分布式缓存</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/搜索引擎/">搜索引擎</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/">数据存储</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/Oracle/">Oracle</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/数据存储/大数据/">大数据</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/架构设计/">架构设计</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/消息中间件/">消息中间件</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/软件开发/系统架构/虚拟机容器/">虚拟机容器</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/金融/">金融</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/金融/投资/">投资</a><span class="category-list-count">5</span></li></ul></li></ul>
         </div>
     </div>
 
