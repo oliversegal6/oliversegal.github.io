@@ -19,12 +19,12 @@
 <meta property="og:site_name" content="静思轩">
 <meta property="og:description" content="MongoDBMongoDB文档模型的好处MongoDB是文档型数据库，是Schema Free的 1、json形式在MongoDB中，开发人员可以直接将一个json数据存储进MongoDB，这对于开发人员来说是非常友好额； 2、读写性能高在关系型数据库中，我们经常会进行join、子查询等关联性需求，这时候往往会带来较多的随机IO，而在MongoDB中，我们可以通过合理的数据模型设计来将很多的关联">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/passages/软件开发/系统架构/数据存储/大数据/Mongodb/pic/mongo1.svg">
-<meta property="og:updated_time" content="2019-05-24T15:15:21.858Z">
+<meta property="og:image" content="https://oliversegal6.github.io/images/mongo1.svg">
+<meta property="og:updated_time" content="2019-05-25T03:02:39.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mongodb">
 <meta name="twitter:description" content="MongoDBMongoDB文档模型的好处MongoDB是文档型数据库，是Schema Free的 1、json形式在MongoDB中，开发人员可以直接将一个json数据存储进MongoDB，这对于开发人员来说是非常友好额； 2、读写性能高在关系型数据库中，我们经常会进行join、子查询等关联性需求，这时候往往会带来较多的随机IO，而在MongoDB中，我们可以通过合理的数据模型设计来将很多的关联">
-<meta name="twitter:image" content="http://yoursite.com/passages/软件开发/系统架构/数据存储/大数据/Mongodb/pic/mongo1.svg">
+<meta name="twitter:image" content="https://oliversegal6.github.io/images/mongo1.svg">
     
 
     
@@ -215,20 +215,20 @@
 <h2 id="MongoDB-集群"><a href="#MongoDB-集群" class="headerlink" title="MongoDB 集群"></a>MongoDB 集群</h2><p>mongodb的集群搭建方式主要有三种，主从模式，Replica set模式，sharding模式, 三种模式各有优劣，适用于不同的场合，属Replica set应用最为广泛，主从模式现在用的较少，sharding模式最为完备，但配置维护较为复杂</p>
 <h3 id="高可用（多副本Replication"><a href="#高可用（多副本Replication" class="headerlink" title="高可用（多副本Replication)"></a>高可用（多副本Replication)</h3><p>Mongodb的Replica Set即副本集方式主要有两个目的，一个是数据冗余做故障恢复使用，当发生硬件故障或者其它原因造成的宕机时，可以使用副本进行恢复。另一个是做读写分离，读的请求分流到副本上，减轻主（Primary）的读压力。</p>
 <p>Mongo 副本集是多个mongod实例，一般为3个，一个primary二个Secondary.Primary 把所有的数据修改存入<strong>operation log(oplog)</strong>, Secondaries<strong>异步复制</strong> Primary的oplog把数据修改入自己的数据集。如果Primary不可用，Secondary会开始一个选举，选出一个新的Primary.</p>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo1.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo1.svg" alt="Alt text"></p>
 <ul>
 <li>一个 primary实例.</li>
 <li>两个secondary 实例. 两个 secondaries 都可以通过选举成为 primary.</li>
 </ul>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo3.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo3.svg" alt="Alt text"></p>
 <p>还有另外一种创建副本集的方式，如果Primary和Secondary的个数是偶数个，可以加一个Arbiter做为仲裁节点，它不保存数据。加入Arbiter的目的是为了维护quorun机制来相应其他实例的heartbeat和election请求。Arbiter不保存数据，所以是非常轻量，可以不用独立的服务器。</p>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo2.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo2.svg" alt="Alt text"></p>
 <ul>
 <li>一个 primary实例.</li>
 <li>一个secondary 实例. secondary 都可以通过选举成为 primary.</li>
 <li>一个 arbiter. arbiter在选举中只能投票，不能成为实例节点.</li>
 </ul>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo4.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo4.svg" alt="Alt text"></p>
 <h4 id="选举机制"><a href="#选举机制" class="headerlink" title="选举机制"></a>选举机制</h4><p>MongoDB节点之间维护心跳检查，主节点选举由心跳触发。MongoDB复制集成员会向自己之外的所有成员发送心跳并处理响应信息，因此每个节点都维护着从该节点POV看到的其他所有节点的状态信息。节点根据自己的集群状态信息判断是否需要发起选举。</p>
 <p>Quorom 机制，是一种分布式系统中常用的，用来保证数据冗余和最终一致性的投票算法。每个实例和其他实例同步Heartbeat和vote。</p>
 <p>一种非常常用的选举 leader 的方式是“Majority Vote”（“少数服从多数”），但 Kafka 并未采用这种方式。这种模式下，如果我们有 2f+1 个 Replica（包含 Leader 和 Follower），那在 commit 之前必须保证有 f+1 个 Replica 复制完消息，为了保证正确选出新的 Leader，fail 的 Replica 不能超过 f 个。因为在剩下的任意 f+1 个 Replica 里，至少有一个 Replica 包含有最新的所有消息。这种方式有个很大的优势，系统的 latency 只取决于最快的几个 Broker，而非最慢那个。Majority Vote 也有一些劣势，为了保证 Leader Election 的正常进行，它所能容忍的 fail 的 follower 个数比较少。如果要容忍 1 个 follower 挂掉，必须要有 3 个以上的 Replica，如果要容忍 2 个 Follower 挂掉，必须要有 5 个以上的 Replica。也就是说，在生产环境下为了保证较高的容错程度，必须要有大量的 Replica，而大量的 Replica 又会在大数据量下导致性能的急剧下降</p>
@@ -239,15 +239,15 @@
 <li>mongos: 如果每个分片都包含部分集群数据，那么还需要一个接口连接整个集群。这就是mongos。mongos进程是一个路由器，将所有的读写请求指引到合适的分片上。如此一来，mongos为客户端提供了一个合理的系统视图.mongos是轻量级且非持久化的，第一次启动或者关掉重启就会从 config server 加载配置信息，以后如果配置服务器信息变化会通知到所有的 mongos 更新自己的状态，这样 mongos 就能继续准确路由。</li>
 <li>config servers: 持久化了分片集群的元数据，改数据包括：每个数据库，集合和特定范围数据的位置；一份变更记录，保存了数据在分片之间进行迁移的历史信息.配置服务器中保存的元数据是某些特定功能和集群维护是的重中之重。举例来说，每次有mongos进程启动，它都会从配置服务器中获取一份元数据的副本。没有这些数据，就无法获得一致的分片集群视图。在生产环境通常有多个 config server 配置服务器来提高可用性。</li>
 </ul>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo5.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo5.svg" alt="Alt text"></p>
 <p>MongoDB 分片在collection级别, collection中的数据分布在多个shard上.</p>
 <p>块(chunk): MongoDB将数据拆分为chunk，每个chunk都是collection中的一段连续的数据记录，为防止一个chunk变的越来越大，当一个chunk增加到特定大小时，会被自动拆分为两个较小的chunk。</p>
 <h4 id="Sharding-策略"><a href="#Sharding-策略" class="headerlink" title="Sharding 策略"></a>Sharding 策略</h4><p>Hashed Sharding: 哈希分片根据shard key计算hash值。每个chunk安排了一个hash过的shard key值范围</p>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo7.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo7.svg" alt="Alt text"></p>
 <p>Ranged Sharding: 范围分片是根据shard key的值的范围把数据分布不同的shard上。</p>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo8.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo8.svg" alt="Alt text"></p>
 <h4 id="读写路由"><a href="#读写路由" class="headerlink" title="读写路由"></a>读写路由</h4><p>请求如果包含了shard key或着包含shard key为前缀，mongos能够把查询定位到特定的shard集。这种定位的查询方式比广播到所有的shard性能高了很多。<br>如果查询不包含shard key，mongos会执行一个广播操作，查询所有的shards。这种分散和聚合的查询消耗更多的时间</p>
-<p><img src="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo6.svg" alt="Alt text"></p>
+<p><img src="https://oliversegal6.github.io/images/mongo6.svg" alt="Alt text"></p>
 <h4 id="Chunk自动均衡-拆分与迁移"><a href="#Chunk自动均衡-拆分与迁移" class="headerlink" title="Chunk自动均衡(拆分与迁移)"></a>Chunk自动均衡(拆分与迁移)</h4><p>MongoDB将数据拆分为chunk，每个chunk都是collection中的一段连续的数据记录，为防止一个chunk变的越来越大，当一个chunk增加到特定大小时，会被自动拆分为两个较小的chunk。所有自动均衡和移动都是基于Chunk</p>
 <p>为了使得数据相对平均的分布到所有的shard上，Mongodb有一个balancer运行在后台来自动调整chunks在多个shard中的分布。</p>
 <pre><code> 分片机制的重点是块的拆分（spliting）与迁移（migration）
@@ -450,12 +450,12 @@
             "name": "Oliver"
         },
         "headline": "Mongodb",
-        "image": "http://yoursite.com/passages/软件开发/系统架构/数据存储/大数据/Mongodb/./pic/mongo1.svg",
+        "image": "http://yoursite.comhttps://oliversegal6.github.io/images/mongo1.svg",
         "keywords": "",
         "genre": "软件开发 系统架构 数据存储 大数据",
         "datePublished": "2019-05-24",
         "dateCreated": "2019-05-24",
-        "dateModified": "2019-05-24",
+        "dateModified": "2019-05-25",
         "url": "http://yoursite.com/passages/软件开发/系统架构/数据存储/大数据/Mongodb/",
         "description": "MongoDBMongoDB文档模型的好处MongoDB是文档型数据库，是Schema Free的
 1、json形式在MongoDB中，开发人员可以直接将一个json数据存储进MongoDB，这对于开发人员来说是非常友好额；
