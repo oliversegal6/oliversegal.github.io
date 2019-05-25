@@ -162,12 +162,15 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
+        <a href="/passages/软件开发/系统架构/架构设计/Self-Contains/">Self-Contains</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
+            什么是自包含系统
+自包含系统（SCS）与微服务有很多相似的特征。它们都可以独立部署，并以解耦系统为目的。不过，SCS一般具有更粗的粒度和更精确的定义。
+每一个SCS都是一个自主的Web应用，包含了Web UI、业务逻辑和持久化层。对于SCS来说，API是一个可选项，而且SCS不应该共享UI，当然，那些调用了多个服务的单页应用（SPA）除外。
+在进行领域驱动设计（DDD）时，为了尽可能降低SCS之间
         </p>
     </div>
 </article>
@@ -189,15 +192,12 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/Self-Contains/">Self-Contains</a>
+        <a href="/passages/软件开发/系统架构/架构设计/设计模式/">设计模式</a>
         </h1>
     
 
         <p class="article-excerpt">
-            什么是自包含系统
-自包含系统（SCS）与微服务有很多相似的特征。它们都可以独立部署，并以解耦系统为目的。不过，SCS一般具有更粗的粒度和更精确的定义。
-每一个SCS都是一个自主的Web应用，包含了Web UI、业务逻辑和持久化层。对于SCS来说，API是一个可选项，而且SCS不应该共享UI，当然，那些调用了多个服务的单页应用（SPA）除外。
-在进行领域驱动设计（DDD）时，为了尽可能降低SCS之间
+            设计模式设计模式的分类五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式并发型模式 ： Future模式,Master_worker模
         </p>
     </div>
 </article>
@@ -223,12 +223,14 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/设计模式/">设计模式</a>
+        <a href="/passages/软件开发/系统架构/架构设计/重构/">重构</a>
         </h1>
     
 
         <p class="article-excerpt">
-            设计模式设计模式的分类五种创建者模式 ： 单例模式，工厂方法模式，抽象工厂模式，建造者模式，原型模式七种结构型模式 ： 适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式十一种行为模式 ： 策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式并发型模式 ： Future模式,Master_worker模
+            重构技巧 — 函数重构
+重命名函数（Rename Function Name） :  Clean Code 要求定义的变量和函数名可读性要强，从名字就可以知道这个变量和函数去做什么事情，所以好的可读性强的函数名称很重要，特别是有助于理解比较复杂的业务逻辑。
+移除参数（Remove Parameter）: 当函数不再需要某个参数时，要果断移除，不要为了某个未知需求预留参数，过多的参数会给使用者带来参
         </p>
     </div>
 </article>
@@ -250,14 +252,12 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/重构/">重构</a>
+        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
         </h1>
     
 
         <p class="article-excerpt">
-            重构技巧 — 函数重构
-重命名函数（Rename Function Name） :  Clean Code 要求定义的变量和函数名可读性要强，从名字就可以知道这个变量和函数去做什么事情，所以好的可读性强的函数名称很重要，特别是有助于理解比较复杂的业务逻辑。
-移除参数（Remove Parameter）: 当函数不再需要某个参数时，要果断移除，不要为了某个未知需求预留参数，过多的参数会给使用者带来参
+            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
         </p>
     </div>
 </article>

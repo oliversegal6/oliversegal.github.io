@@ -162,33 +162,6 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/事务/">事务</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            数据库事务由两个文件组成的，一个数据库文件和一个日志文件，通常情况下，日志文件都要比数据库文件大很多。数据库进行任何写入操作的时候都是要先写日志的，同样的道理，我们在执行事务的时候数据库首先会记录下这个事务的redo操作日志，然后才开始真正操作数据库，在操作之前首先会把日志文件写入磁盘，那么当突然断电的时候，即使操作没有完成，在重新启动数据库时候，数据库会根据当前数据的情况进行undo回滚或者是r
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
         <a href="/passages/软件开发/系统架构/数据存储/分表分库/">分表分库</a>
         </h1>
     
@@ -202,14 +175,10 @@
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -223,24 +192,24 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/">ORACLE 回滚段管理</a>
+        <a href="/passages/软件开发/系统架构/数据存储/事务/">事务</a>
         </h1>
     
 
         <p class="article-excerpt">
-            [TOC]
-回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 
-回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 
-回滚段的作用
-事务回滚：当事务修改表中数据的时候，该数据修改
+            数据库事务由两个文件组成的，一个数据库文件和一个日志文件，通常情况下，日志文件都要比数据库文件大很多。数据库进行任何写入操作的时候都是要先写日志的，同样的道理，我们在执行事务的时候数据库首先会记录下这个事务的redo操作日志，然后才开始真正操作数据库，在操作之前首先会把日志文件写入磁盘，那么当突然断电的时候，即使操作没有完成，在重新启动数据库时候，数据库会根据当前数据的情况进行undo回滚或者是r
         </p>
     </div>
 </article>
+    
+        </div>
     
 
     
     
     
+    
+        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -264,39 +233,6 @@
 数据库：物理操作系统文件或磁盘的集合。
 实例：一组Oracle后台进程/线程以及一个共享内存区，这些内存由同一个计算机上运行的线程/进程所共享。
 两者之间的关系：实例是一组后台进程和共享内存。数据库是磁盘上存储的数据集合。实例“一生”只能装载并打开一个数据库。数据库可以由一个或多个实
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/大数据/大数据/">大数据</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            关系型数据库遵循ACID规则事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：
-
-A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至
         </p>
     </div>
 </article>
@@ -359,6 +295,37 @@ A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有
         
     
         <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/">ORACLE 回滚段管理</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            [TOC]
+回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 
+回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 
+回滚段的作用
+事务回滚：当事务修改表中数据的时候，该数据修改
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
         <a href="/passages/软件开发/系统架构/数据存储/大数据/Mongodb/">Mongodb</a>
         </h1>
     
@@ -367,6 +334,39 @@ A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有
             MongoDBMongoDB文档模型的好处MongoDB是文档型数据库，是Schema Free的
 1、json形式在MongoDB中，开发人员可以直接将一个json数据存储进MongoDB，这对于开发人员来说是非常友好额；
 2、读写性能高在关系型数据库中，我们经常会进行join、子查询等关联性需求，这时候往往会带来较多的随机IO，而在MongoDB中，我们可以通过合理的数据模型设计来将很多的关联
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/数据存储/大数据/大数据/">大数据</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            关系型数据库遵循ACID规则事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：
+
+A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至
         </p>
     </div>
 </article>

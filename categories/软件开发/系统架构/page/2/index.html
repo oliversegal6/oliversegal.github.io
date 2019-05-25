@@ -190,6 +190,40 @@
         
     
         <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/分布式架构/服务容错设计/">服务容错设计</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
+1）一个依赖服务的故障不会严重破坏用户的体验。
+2）系统能自动或半自动处理故障，具备自我恢复能力。
+经典的容错模式超时与重试（Time
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
         <a href="/passages/软件开发/系统架构/搜索引擎/Lucence/">Lucence</a>
         </h1>
     
@@ -207,40 +241,6 @@
     </div>
 </article>
     
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/服务容错设计/">服务容错设计</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
-1）一个依赖服务的故障不会严重破坏用户的体验。
-2）系统能自动或半自动处理故障，具备自我恢复能力。
-经典的容错模式超时与重试（Time
-        </p>
-    </div>
-</article>
-    
 
     
     
@@ -258,73 +258,25 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/事务/">事务</a>
+        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/">Redis</a>
         </h1>
     
 
         <p class="article-excerpt">
-            数据库事务由两个文件组成的，一个数据库文件和一个日志文件，通常情况下，日志文件都要比数据库文件大很多。数据库进行任何写入操作的时候都是要先写日志的，同样的道理，我们在执行事务的时候数据库首先会记录下这个事务的redo操作日志，然后才开始真正操作数据库，在操作之前首先会把日志文件写入磁盘，那么当突然断电的时候，即使操作没有完成，在重新启动数据库时候，数据库会根据当前数据的情况进行undo回滚或者是r
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
+            Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。
+使用 Redis 的常见问题
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
-        </h1>
-    
+缓存和数据库双写一致性问题
+缓存雪崩问题
+缓存击穿问题
+缓存的并发竞争问题
 
-        <p class="article-excerpt">
-            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
-        </p>
-    </div>
-</article>
-    
+Redis 是单线程工作模型。
+原因主要是以下三点：
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/分表分库/">分表分库</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            分表分库基本思想Sharding的基本思想就要把一个数据库切分成多个部分放到不同的数据库(server)上，从而缓解单一数据库的性能问题。
-
-对于海量数据的数据库，如果是因为表多而数据多，这时候适合使用垂直切分，即把关系紧密（比如同一模块）的表切分出来放在一个server上。
-如果表并不多，但每张表的数据非常多，这时候适合水平切分，即把表的数据按某种规则（比如按ID散列）切分到多个数据库(serv
+纯内存操作
+单线程操作，避免了频繁的上下文切换
+采用了非
         </p>
     </div>
 </article>
@@ -419,6 +371,66 @@
             重构技巧 — 函数重构
 重命名函数（Rename Function Name） :  Clean Code 要求定义的变量和函数名可读性要强，从名字就可以知道这个变量和函数去做什么事情，所以好的可读性强的函数名称很重要，特别是有助于理解比较复杂的业务逻辑。
 移除参数（Remove Parameter）: 当函数不再需要某个参数时，要果断移除，不要为了某个未知需求预留参数，过多的参数会给使用者带来参
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/架构设计/Restful/">Restful</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            Java Web有很多成熟的框架，主要可以分为两类Web Application和Web Services。用于Web Application的框架包括官方的Servlet/JSP, JSTL/JSF以及第三方Struts/Spring MVC(action-based)。Web Services的项目又可以分为基于XML的（SOAP/WSDL）的和基于JSON的，Java Communitiy为
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/虚拟机容器/docker/">Docker</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            Docker基础Ubuntu Docker 安装http://www.docker.org.cn/book/install/install-docker-under-ubuntu-precise-20.html
+curl -sSL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/intranet | sh
+内核
         </p>
     </div>
 </article>

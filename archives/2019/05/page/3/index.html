@@ -259,12 +259,13 @@ Bonds provide solutions f
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/金融/投资/ETF/">ETF</a>
+        <a href="/passages/金融/投资/债券/">债券</a>
         </h1>
     
 
         <p class="article-excerpt">
-            1 、什么是交易型开放式指数基金 (ETF)?答 :” 交易型开放式指数证券投资基金 “(ExchangeTradedFund, 以下缩写 ETF), 简称 “ 交易型开放式指数基金 “, 又称 “ 交易所交易基金 “ 。ETF 是一种跟踪 “ 标的批数 “ 变化、且在证券交易所上市交易的基金。投资人可以如买卖股票那么简单地去买卖跟踪 “ 标的指数 “ 的 ETF, 并使其可以获得与该指数基本相同
+            可转换债券是什么意思？可转换债券又称为可转换公司债券是一种被赋予了股票转换权的特殊公司债券。可转换债券持有人可以按发行时规定的条件把其债券转换成发行公司的等值普通股票。发行可转换债券的公司事先规定债权人可以选择有利时机，也就是当债权人看见该公司经营业绩良好，经营前景乐观，公司股票看涨时，就可将债券转换为股票，以受益于公司的发展。
+可转换债券具有哪些特点？可转换债券因为可以转换为普通股票所以具有债券
         </p>
     </div>
 </article>
@@ -319,13 +320,12 @@ Bonds provide solutions f
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/金融/投资/债券/">债券</a>
+        <a href="/passages/金融/投资/ETF/">ETF</a>
         </h1>
     
 
         <p class="article-excerpt">
-            可转换债券是什么意思？可转换债券又称为可转换公司债券是一种被赋予了股票转换权的特殊公司债券。可转换债券持有人可以按发行时规定的条件把其债券转换成发行公司的等值普通股票。发行可转换债券的公司事先规定债权人可以选择有利时机，也就是当债权人看见该公司经营业绩良好，经营前景乐观，公司股票看涨时，就可将债券转换为股票，以受益于公司的发展。
-可转换债券具有哪些特点？可转换债券因为可以转换为普通股票所以具有债券
+            1 、什么是交易型开放式指数基金 (ETF)?答 :” 交易型开放式指数证券投资基金 “(ExchangeTradedFund, 以下缩写 ETF), 简称 “ 交易型开放式指数基金 “, 又称 “ 交易所交易基金 “ 。ETF 是一种跟踪 “ 标的批数 “ 变化、且在证券交易所上市交易的基金。投资人可以如买卖股票那么简单地去买卖跟踪 “ 标的指数 “ 的 ETF, 并使其可以获得与该指数基本相同
         </p>
     </div>
 </article>
@@ -380,25 +380,17 @@ Bonds provide solutions f
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式缓存/Redis/">Redis</a>
+        <a href="/passages/软件开发/系统架构/分布式架构/MicroService/">MicroService</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Redis在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用 Redis 做一个缓冲操作，让请求先访问到 Redis，而不是直接访问数据库。
-使用 Redis 的常见问题
+            微服务架构监控微服务架构虽然解决了目前诸多的架构层面的问题，但在分布式部署的环境中，如何才能够有效监控每一个服务，并及时发现系统中的问题又成为了新的挑战
+在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
 
-缓存和数据库双写一致性问题
-缓存雪崩问题
-缓存击穿问题
-缓存的并发竞争问题
+基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封装的框架。
 
-Redis 是单线程工作模型。
-原因主要是以下三点：
-
-纯内存操作
-单线程操作，避免了频繁的上下文切换
-采用了非
+自动探针，适用语言：J
         </p>
     </div>
 </article>
@@ -424,13 +416,15 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
+        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
         </h1>
     
 
         <p class="article-excerpt">
-            [TOC]
-既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
+            高可靠消息服务总体架构
+消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
+
+路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
         </p>
     </div>
 </article>
@@ -452,13 +446,13 @@ Redis 是单线程工作模型。
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Spring读书笔记/">Spring读书笔记</a>
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
         </h1>
     
 
         <p class="article-excerpt">
             [TOC]
-SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学是提供一种无侵入式的高扩展性框架。即无需代码中涉及Spring专有类，即可将其纳入Spring容器进行管理。作为对比，EJB则是一种高度侵入性的框架规范，它制定了众多的接口和编码规范，要求实现者必须遵从。侵入性的后果就是，一旦系统基于侵入性框架设计开发，那么之后任何脱离这个框架的企图都将付出极大的代价。为了
+既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
