@@ -192,6 +192,73 @@ from : http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html
         
     
         <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/幂等防重设计/">幂等防重设计</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            在一个典型的订单交易系统中，防重和幂等设计是重要而又非常基本的概念。防重是指重复多次提交同样的交易指令或者订单请求到后台，系统必须能够去重，防止重复执行；而幂等，则是在多个同样的交易指令或请求同时或者先后到达后台，即使重复执行，系统也必须始终提供与一致的状态，而不能有其他的副作用
+幂等要表达的含义是：只要调用接口成功，外部对接口的多次调用得到的结果是相同的。即执行多次和一次的效果是一样的
+订单系统
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/性能测试/">性能测试</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            系统吞度量要素一个系统的吞度量（承压能力）与request对CPU的消耗、外部接口、IO等等紧密关联。单个reqeust 对CPU消耗越高，外部系统接口、IO影响速度越慢，系统吞吐能力越低，反之越高。
+系统吞吐量几个重要参数：QPS（TPS）、并发数、响应时间
+
+QPS（TPS）：每秒钟request/事务 数量
+并发数： 系统同时处理的request/事务数
+响应时间：  一般取平均响应时间
+
+
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
         <a href="/passages/软件开发/系统架构/一致性/">一致性</a>
         </h1>
     
@@ -231,14 +298,15 @@ gossip
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/幂等防重设计/">幂等防重设计</a>
+        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
         </h1>
     
 
         <p class="article-excerpt">
-            在一个典型的订单交易系统中，防重和幂等设计是重要而又非常基本的概念。防重是指重复多次提交同样的交易指令或者订单请求到后台，系统必须能够去重，防止重复执行；而幂等，则是在多个同样的交易指令或请求同时或者先后到达后台，即使重复执行，系统也必须始终提供与一致的状态，而不能有其他的副作用
-幂等要表达的含义是：只要调用接口成功，外部对接口的多次调用得到的结果是相同的。即执行多次和一次的效果是一样的
-订单系统
+            高可靠消息服务总体架构
+消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
+
+路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
         </p>
     </div>
 </article>
@@ -260,19 +328,13 @@ gossip
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/性能测试/">性能测试</a>
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
         </h1>
     
 
         <p class="article-excerpt">
-            系统吞度量要素一个系统的吞度量（承压能力）与request对CPU的消耗、外部接口、IO等等紧密关联。单个reqeust 对CPU消耗越高，外部系统接口、IO影响速度越慢，系统吞吐能力越低，反之越高。
-系统吞吐量几个重要参数：QPS（TPS）、并发数、响应时间
-
-QPS（TPS）：每秒钟request/事务 数量
-并发数： 系统同时处理的request/事务数
-响应时间：  一般取平均响应时间
-
-
+            [TOC]
+既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
@@ -337,68 +399,6 @@ QPS（TPS）：每秒钟request/事务 数量
 在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
 
 基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            高可靠消息服务总体架构
-消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
-
-路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            [TOC]
-既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>

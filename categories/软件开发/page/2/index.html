@@ -155,37 +155,6 @@
         
         <div class="article-meta">
             <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/机器学习/">机器学习</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/机器学习AI/机器学习/">机器学习</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            ##Install Crf++https://sourceforge.net/projects/crfpp/files/latest/download
-
-installtar zxvf CRF++-0.58.tar.gzcd CRF++-0.58./configuremakesudo make install
-
-install python interface进入子目录python中，cd pyt
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
             <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
             </div>
             <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
@@ -205,14 +174,10 @@ install python interface进入子目录python中，cd pyt
     </div>
 </article>
     
-        </div>
-    
 
     
     
     
-    
-        <div class="article-row">
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -239,6 +204,107 @@ QPS（TPS）：每秒钟request/事务 数量
 响应时间：  一般取平均响应时间
 
 
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/一致性/">一致性</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            一致性高级一致性算法一致性hash一致性哈希算法(Consistent Hashing Algorithm)是一种分布式算法，常用于负载均衡一致性哈希将整个哈希值空间组织成一个虚拟的圆环一致性哈希算法对于节点的增减都只需重定位环空间中的一小部分数据，具有较好的容错性和可扩展性
+
+paxos
+zab
+nwr
+raft
+gossip
+
+传统一致性ACID原子性Atomic原子性任务是一个独立的操作单元
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            高可靠消息服务总体架构
+消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
+
+路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            [TOC]
+既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
@@ -303,68 +369,6 @@ QPS（TPS）：每秒钟request/事务 数量
 在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
 
 基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            高可靠消息服务总体架构
-消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
-
-路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            [TOC]
-既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
@@ -453,13 +457,15 @@ SpringSpring核心Spring 从核心而言，是一个DI容器，其设计哲学�
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/高性能架构/">高性能架构</a>
+        <a href="/passages/软件开发/系统架构/分布式架构/服务容错设计/">服务容错设计</a>
         </h1>
     
 
         <p class="article-excerpt">
-            架构设计高性能架构性能分析：检查各处处理的日志，查看那个环节响应时间不合理，超过预期；然后检查监控数据，内存，磁盘，网络，CPU，查看是代码问题还是架构问题，或者资源确实不足。性能优化： 针对查到的原因进行优化，根据网站分层架构，可分为Web前端优化，应用服务器性能优化，存储服务器优化。
-高并发原则无状态设计应用设计为无状态的，易于水平扩展。实际应用中一般为服务无状态，配置有状态，比如不同区域数据
+            服务容错设计设计原则服务容错的设计有个基本原则，就是“Design for Failure”。为了避免出现“千里之堤溃于蚁穴”这种情况，在设计上需要考虑到各种边界场景和对于服务间调用出现的异常或延迟情况，同时在设计和编程时也要考虑周到。这一切都是为了达到以下目标：
+1）一个依赖服务的故障不会严重破坏用户的体验。
+2）系统能自动或半自动处理故障，具备自我恢复能力。
+经典的容错模式超时与重试（Time
         </p>
     </div>
 </article>

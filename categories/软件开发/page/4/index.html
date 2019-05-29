@@ -162,13 +162,16 @@
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/消息中间件/消息中间件/">消息中间件</a>
+        <a href="/passages/软件开发/系统架构/消息中间件/kafka/">Kafka</a>
         </h1>
     
 
         <p class="article-excerpt">
-            RabbitMQ是使用Erlang语言开发的开源消息队列系统，基于AMQP协议来实现。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。AMQP协议更多用在企业系统内，对数据一致性、稳定性和可靠性要求很高的场景，对性能和吞吐量的要求还在其次。
-kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apache定级项目。Kafka主要特点是基于Pull
+            KafkaKafka 是一种分布式的，基于发布 / 订阅的消息系统。主要设计目标如下：
+
+以时间复杂度为 O(1) 的方式提供消息持久化能力，即使对 TB 级以上数据也能保证常数时间复杂度的访问性能。
+高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒 100K 条以上消息的传输。
+支持 Kafka Server 间的消息分区，及分布式消费，同时保证每个 Partition 内的消息顺序传输
         </p>
     </div>
 </article>
@@ -190,12 +193,85 @@ kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apa
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/事务/">事务</a>
+        <a href="/passages/软件开发/系统架构/消息中间件/消息中间件/">消息中间件</a>
         </h1>
     
 
         <p class="article-excerpt">
-            数据库事务由两个文件组成的，一个数据库文件和一个日志文件，通常情况下，日志文件都要比数据库文件大很多。数据库进行任何写入操作的时候都是要先写日志的，同样的道理，我们在执行事务的时候数据库首先会记录下这个事务的redo操作日志，然后才开始真正操作数据库，在操作之前首先会把日志文件写入磁盘，那么当突然断电的时候，即使操作没有完成，在重新启动数据库时候，数据库会根据当前数据的情况进行undo回滚或者是r
+            RabbitMQ是使用Erlang语言开发的开源消息队列系统，基于AMQP协议来实现。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。AMQP协议更多用在企业系统内，对数据一致性、稳定性和可靠性要求很高的场景，对性能和吞吐量的要求还在其次。
+kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apache定级项目。Kafka主要特点是基于Pull
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/">ORACLE 锁管理</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            ORACLE锁的管理ORACLE里锁有以下几种模式:
+
+0：none
+1：null      空
+2：Row-S     行共享(RS)：共享表锁  
+3：Row-X     行专用(RX)：用于行的修改
+4：Share     共享锁(S)：阻止其他DML操作
+5：S/Row-X   共享行专用(SRX)：阻止其他事务操作
+6：exclusive 专用(X)：独立访问使用
+
+数字越大锁级别越高,
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/">ORACLE 回滚段管理</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            [TOC]
+回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 
+回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 
+回滚段的作用
+事务回滚：当事务修改表中数据的时候，该数据修改
         </p>
     </div>
 </article>
@@ -252,22 +328,14 @@ kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apa
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 锁管理/">ORACLE 锁管理</a>
+        <a href="/passages/软件开发/系统架构/数据存储/大数据/大数据/">大数据</a>
         </h1>
     
 
         <p class="article-excerpt">
-            ORACLE锁的管理ORACLE里锁有以下几种模式:
+            关系型数据库遵循ACID规则事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：
 
-0：none
-1：null      空
-2：Row-S     行共享(RS)：共享表锁  
-3：Row-X     行专用(RX)：用于行的修改
-4：Share     共享锁(S)：阻止其他DML操作
-5：S/Row-X   共享行专用(SRX)：阻止其他事务操作
-6：exclusive 专用(X)：独立访问使用
-
-数字越大锁级别越高,
+A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至
         </p>
     </div>
 </article>
@@ -280,37 +348,6 @@ kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apa
     
     
         <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/Oracle/ORACLE 回滚段管理/">ORACLE 回滚段管理</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            [TOC]
-回滚段管理一直是ORACLE数据库管理的一个难题，本文通过实例介绍ORACLE回滚段的概念，用法和规划及问题的解决。 
-回滚段概述回滚段用于存放数据修改之前的值（包括数据修改之前的位置和值）。回滚段的头部包含正在使用的该回滚段事务的信息。一个事务只能使用一个回滚段来存放它的回滚信息，而一个回滚段可以存放多个事务的回滚信息。 
-回滚段的作用
-事务回滚：当事务修改表中数据的时候，该数据修改
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
     
         <article class="article article-summary">
     <div class="article-summary-inner">
@@ -332,39 +369,6 @@ kafka是LinkedIn开源的分布式发布-订阅消息系统，目前归属于Apa
             MongoDBMongoDB文档模型的好处MongoDB是文档型数据库，是Schema Free的
 1、json形式在MongoDB中，开发人员可以直接将一个json数据存储进MongoDB，这对于开发人员来说是非常友好额；
 2、读写性能高在关系型数据库中，我们经常会进行join、子查询等关联性需求，这时候往往会带来较多的随机IO，而在MongoDB中，我们可以通过合理的数据模型设计来将很多的关联
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/数据存储/大数据/大数据/">大数据</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            关系型数据库遵循ACID规则事务在英文中是transaction，和现实世界中的交易很类似，它有如下四个特性：
-
-A (Atomicity) 原子性原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至
         </p>
     </div>
 </article>

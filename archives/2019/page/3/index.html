@@ -155,21 +155,22 @@
         
         <div class="article-meta">
             <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            <a class="article-category-link" href="/categories/金融/">金融</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/金融/投资/">投资</a>
             </div>
             <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/幂等防重设计/">幂等防重设计</a>
+        <a href="/passages/金融/投资/BondsGuide/">BondsGuide</a>
         </h1>
     
 
         <p class="article-excerpt">
-            在一个典型的订单交易系统中，防重和幂等设计是重要而又非常基本的概念。防重是指重复多次提交同样的交易指令或者订单请求到后台，系统必须能够去重，防止重复执行；而幂等，则是在多个同样的交易指令或请求同时或者先后到达后台，即使重复执行，系统也必须始终提供与一致的状态，而不能有其他的副作用
-幂等要表达的含义是：只要调用接口成功，外部对接口的多次调用得到的结果是相同的。即执行多次和一次的效果是一样的
-订单系统
+            What’s Bond[TOC]
+Why Bond
+A balanced portfolio of stocks and bonds can help most investors accomplish long-term investment goals more effectively than a pure equity strategy.
+Bonds provide solutions f
         </p>
     </div>
 </article>
@@ -222,22 +223,27 @@ QPS（TPS）：每秒钟request/事务 数量
         
         <div class="article-meta">
             <div class="category">
-            <a class="article-category-link" href="/categories/金融/">金融</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/金融/投资/">投资</a>
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
             </div>
             <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/金融/投资/BondsGuide/">BondsGuide</a>
+        <a href="/passages/软件开发/系统架构/一致性/">一致性</a>
         </h1>
     
 
         <p class="article-excerpt">
-            What’s Bond[TOC]
-Why Bond
-A balanced portfolio of stocks and bonds can help most investors accomplish long-term investment goals more effectively than a pure equity strategy.
-Bonds provide solutions f
+            一致性高级一致性算法一致性hash一致性哈希算法(Consistent Hashing Algorithm)是一种分布式算法，常用于负载均衡一致性哈希将整个哈希值空间组织成一个虚拟的圆环一致性哈希算法对于节点的增减都只需重定位环空间中的一小部分数据，具有较好的容错性和可扩展性
+
+paxos
+zab
+nwr
+raft
+gossip
+
+传统一致性ACID原子性Atomic原子性任务是一个独立的操作单元
         </p>
     </div>
 </article>
@@ -259,13 +265,12 @@ Bonds provide solutions f
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/金融/投资/债券/">债券</a>
+        <a href="/passages/金融/投资/ETF/">ETF</a>
         </h1>
     
 
         <p class="article-excerpt">
-            可转换债券是什么意思？可转换债券又称为可转换公司债券是一种被赋予了股票转换权的特殊公司债券。可转换债券持有人可以按发行时规定的条件把其债券转换成发行公司的等值普通股票。发行可转换债券的公司事先规定债权人可以选择有利时机，也就是当债权人看见该公司经营业绩良好，经营前景乐观，公司股票看涨时，就可将债券转换为股票，以受益于公司的发展。
-可转换债券具有哪些特点？可转换债券因为可以转换为普通股票所以具有债券
+            1 、什么是交易型开放式指数基金 (ETF)?答 :” 交易型开放式指数证券投资基金 “(ExchangeTradedFund, 以下缩写 ETF), 简称 “ 交易型开放式指数基金 “, 又称 “ 交易所交易基金 “ 。ETF 是一种跟踪 “ 标的批数 “ 变化、且在证券交易所上市交易的基金。投资人可以如买卖股票那么简单地去买卖跟踪 “ 标的指数 “ 的 ETF, 并使其可以获得与该指数基本相同
         </p>
     </div>
 </article>
@@ -320,12 +325,75 @@ Bonds provide solutions f
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/passages/金融/投资/ETF/">ETF</a>
+        <a href="/passages/金融/投资/债券/">债券</a>
         </h1>
     
 
         <p class="article-excerpt">
-            1 、什么是交易型开放式指数基金 (ETF)?答 :” 交易型开放式指数证券投资基金 “(ExchangeTradedFund, 以下缩写 ETF), 简称 “ 交易型开放式指数基金 “, 又称 “ 交易所交易基金 “ 。ETF 是一种跟踪 “ 标的批数 “ 变化、且在证券交易所上市交易的基金。投资人可以如买卖股票那么简单地去买卖跟踪 “ 标的指数 “ 的 ETF, 并使其可以获得与该指数基本相同
+            可转换债券是什么意思？可转换债券又称为可转换公司债券是一种被赋予了股票转换权的特殊公司债券。可转换债券持有人可以按发行时规定的条件把其债券转换成发行公司的等值普通股票。发行可转换债券的公司事先规定债权人可以选择有利时机，也就是当债权人看见该公司经营业绩良好，经营前景乐观，公司股票看涨时，就可将债券转换为股票，以受益于公司的发展。
+可转换债券具有哪些特点？可转换债券因为可以转换为普通股票所以具有债券
+        </p>
+    </div>
+</article>
+    
+        </div>
+    
+
+    
+    
+    
+    
+        <div class="article-row">
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            高可靠消息服务总体架构
+消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
+
+路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
+        </p>
+    </div>
+</article>
+    
+
+    
+    
+    
+    
+        <article class="article article-summary">
+    <div class="article-summary-inner">
+        
+        <div class="article-meta">
+            <div class="category">
+            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
+            </div>
+            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
+        </div>
+        
+    
+        <h1 class="article-title" itemprop="name">
+        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
+        </h1>
+    
+
+        <p class="article-excerpt">
+            [TOC]
+既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
@@ -390,68 +458,6 @@ Bonds provide solutions f
 在APM领域，程序的细节决定产品的性能。目前按照探针的实现，可行的思路主要有四种：
 
 基于日志系统，探针只负责对日志加上编号，又类似ELK的系统进行收集、处理、展示。这方面没有很成熟的产品，一般都属于公司内部封
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/分布式架构/taobaoExperience/">taobaoExperience</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            高可靠消息服务总体架构
-消息系统从部署上分为三个子系统，路由系统、存储系统以及推送系统。消息数据先存储再推送，保证每条消息至少推送一次。写入与推送分离，发送方不同步等待接收方应答，客户端的任何异常不会影响发送方系统的稳定性. 
-
-路由系统，各个处理模块管道化，扩展性强。系统监听主站的交易、商品、物流等变更事件，针对不同业务进行消息过滤、鉴权、转换、存储、日志打点等。系统运行过程记录各个消息的处理状
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <div class="article-meta">
-            <div class="category">
-            <a class="article-category-link" href="/categories/软件开发/">软件开发</a><i class="icon fa fa-angle-right"></i><a class="article-category-link" href="/categories/软件开发/系统架构/">系统架构</a>
-            </div>
-            <div class="date"><time datetime="2019-05-24T14:06:47.000Z" itemprop="datePublished">2019-05-24</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/passages/软件开发/系统架构/Spring相关/Hibernate/">Hibernate</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            [TOC]
-既然说到了Hibernate就把JDBC（Java DataBase Connection）顺带说一下好了，它做为SUN提供的一个数据库接口标准，基本上也是现行的java连接数据库的标准接口，Hiberante也是建立在它的基础之上。简单的说JDBC就是一个标准接口，看过它的源代码就知道其中提供了大量的接口，可以通过这些接口得到connection,执行SQL，返回结果集等数据库操作。
         </p>
     </div>
 </article>
